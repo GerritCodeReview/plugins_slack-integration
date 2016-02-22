@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "62f3e9ea_6fd87138",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T04:47:51Z",
+      "side": 1,
+      "message": "Whenever we release Gerrit we also release a corresponding plugin API with the same version.\n\nTypically the .x releases don\u0027t have new features, but there have been exceptions to this.  For example in the upcoming 2.12.1 API there is a change in the signature of one of the MergeValidationListener interface\u0027s methods.\n\nIt might be better to submit this with 2.11 and then do a separate change later to bump to 2.11.7.",
+      "parentUuid": "62f3e9ea_cfe87dcf",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62f3e9ea_4fd00d18",
         "filename": "pom.xml",
         "patchSetId": 1
