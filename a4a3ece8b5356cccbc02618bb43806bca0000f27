@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82f0dddd_90f294bd",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T04:33:08Z",
+      "side": 1,
+      "message": "2.11.7 is the latest.",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_4fd00d18",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T04:33:08Z",
+      "side": 1,
+      "message": "Replace this with\n\n ${project.version}\n\nand then it only needs to be updated in one place next time.",
+      "range": {
+        "startLine": 35,
+        "startChar": 28,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_2fcdc97b",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/PublishEventListenerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T04:33:08Z",
+      "side": 1,
+      "message": "unrelated nit: \"mock\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 30,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_0fca0564",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/PublishEventListenerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-22T04:33:08Z",
+      "side": 1,
+      "message": "The test class can be an event listener. There\u0027s a test that does this somewhere in core Gerrit.",
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
