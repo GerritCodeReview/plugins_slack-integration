@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62f3e9ea_cfe87dcf",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-02-22T04:40:13Z",
+      "side": 1,
+      "message": "Is this typical of plugin versioning? I was curious about this after looking at various examples. With a plugin version the same as the Gerrit version how are others tracking what changes if a plugin adds a feature without changing the Gerrit version?",
+      "parentUuid": "82f0dddd_90f294bd",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62f3e9ea_4fd00d18",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -82,6 +106,24 @@
       "writtenOn": "2016-02-22T04:33:08Z",
       "side": 1,
       "message": "The test class can be an event listener. There\u0027s a test that does this somewhere in core Gerrit.",
+      "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62f3e9ea_afed39dd",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/PublishEventListenerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-02-22T04:40:13Z",
+      "side": 1,
+      "message": "Thanks! I will take a look.",
+      "parentUuid": "62f3e9ea_0fca0564",
       "revId": "a4a3ece8b5356cccbc02618bb43806bca0000f27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
