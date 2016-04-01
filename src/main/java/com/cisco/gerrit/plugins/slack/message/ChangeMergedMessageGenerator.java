@@ -61,7 +61,7 @@ public class ChangeMergedMessageGenerator extends MessageGenerator
     @Override
     public boolean shouldPublish()
     {
-        return true;
+        return config.isEnabled();
     }
 
     @Override
