@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee7508ba_b3f3d8b1",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/PublishEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-04-04T14:25:28Z",
+      "side": 1,
+      "message": "This can be removed as it is an unused import here.",
+      "range": {
+        "startLine": 27,
+        "startChar": 39,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "f6ece804439abe9a610b511c9c0b37d652e16e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_b4f3c0b1",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/ChangeMergedMessageGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-04-04T14:25:28Z",
+      "side": 1,
+      "message": "Nice catch",
+      "range": {
+        "startLine": 64,
+        "startChar": 22,
+        "endLine": 64,
+        "endChar": 31
+      },
+      "revId": "f6ece804439abe9a610b511c9c0b37d652e16e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_5436ec3a",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/CommentAddedMessageGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-04-04T14:25:28Z",
+      "side": 1,
+      "message": "This may get a bit long if the entire comment is published to slack. The intent with the other events was to alert via slack but require the user to click through to read the entire commit message for example. Perhaps consider taking up to the firs new line in a comment, similar to the commit message?",
+      "revId": "f6ece804439abe9a610b511c9c0b37d652e16e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_743be81f",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/CommentAddedMessageGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-04-04T14:25:28Z",
+      "side": 1,
+      "message": "What about a more consistent format? Jane doe commented \\n the-project (master) patch-set 1: commit topic \\n comment",
+      "range": {
+        "startLine": 97,
+        "startChar": 27,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "f6ece804439abe9a610b511c9c0b37d652e16e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e7b3caf_94f6c4a2",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-04-04T14:25:28Z",
+      "side": 1,
+      "message": "Nice catch.",
+      "revId": "f6ece804439abe9a610b511c9c0b37d652e16e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
