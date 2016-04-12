@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebca5a38_2b63d9e6",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/CommentAddedMessageGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-04-12T11:09:49Z",
+      "side": 1,
+      "message": "Slight nit. Should be Creates a new CommentAddedMessageGenerator...",
+      "range": {
+        "startLine": 44,
+        "startChar": 21,
+        "endLine": 44,
+        "endChar": 49
+      },
+      "revId": "70d2b080e63cc7e49226bf38a1924b5667667fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
