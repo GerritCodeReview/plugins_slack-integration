@@ -75,8 +75,6 @@ Create the following config block
     [plugin "slack-integration"]
         enabled = true
         webhookurl = https://<web-hook-url>
-        channel = general
-        username = gerrit
         ignore = "^WIP.*"
 
 Commit and push changes
@@ -95,10 +93,6 @@ The following configuration options are available
     webhookurl - String
         The Slack webhook URL to publish to (defaults to an
         empty string).
-    channel - String
-        The Slack channel to publish to (defaults to "general").
-    username - String
-        The Slack username to publish as (defaults to "gerrit").
     ignore - Pattern
         A "dotall" enabled regular expression pattern that, when matches
         against a commit message, will prevent the publishing of patchset

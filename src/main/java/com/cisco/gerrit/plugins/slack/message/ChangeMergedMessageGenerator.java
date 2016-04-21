@@ -67,31 +67,32 @@ public class ChangeMergedMessageGenerator extends MessageGenerator
     @Override
     public String generate()
     {
-        String message;
-        message = "";
+        String message = "";
+
+        String whatHappened = String.format("%s (%s) merged patch set #%s of %s",
+                escape(event.submitter.name),
+                escape(event.submitter.username),
+                escape(event.change.currentPatchSet.number),
+                escape(event.change.url));
+        String topic = "";
+        if (event.change.topic != null && !event.change.topic.isEmpty()) {
+            topic = String.format(" - (%s)", event.change.topic);
+        }
+        String attachmentTitle = String.format("%s - (%s)%s",
+                escape(event.change.project),
+                escape(event.change.branch),
+                escape(topic));
+        String attachmentValue = escape(event.change.commitMessage.split("\n")[0]);
+
+        AttachmentMessage.Builder builder = new AttachmentMessage.Builder()
+                .withPretext(whatHappened)
+                .withColor(AttachmentMessage.Builder.COLOR_ERROR)
+                .withAttachmentTitle(attachmentTitle)
+                .withAttachmentValue(attachmentValue);
 
         try
         {
-            String template;
-            template = ResourceHelper.loadNamedResourceAsString(
-                    "basic-message-template.json");
-
-            StringBuilder text;
-            text = new StringBuilder();
-
-            text.append(escape(event.submitter.name));
-            text.append(" merged\\n>>>");
-            text.append(escape(event.change.project));
-            text.append(" (");
-            text.append(escape(event.change.branch));
-            text.append("): ");
-            text.append(escape(event.change.commitMessage.split("\n")[0]));
-            text.append(" (");
-            text.append(escape(event.change.url));
-            text.append(")");
-
-            message = String.format(template, text, config.getChannel(),
-                    config.getUsername());
+            message = builder.build().generate();
         }
         catch (Exception e)
         {

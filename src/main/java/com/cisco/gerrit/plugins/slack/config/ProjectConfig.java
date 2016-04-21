@@ -44,8 +44,6 @@ public class ProjectConfig
 
     private boolean enabled;
     private String webhookUrl;
-    private String channel;
-    private String username;
     private String ignore;
 
     /**
@@ -71,14 +69,6 @@ public class ProjectConfig
                     projectNameKey, CONFIG_NAME).getString(
                     "webhookurl", "");
 
-            channel = configFactory.getFromProjectConfigWithInheritance(
-                    projectNameKey, CONFIG_NAME).getString(
-                    "channel", "general");
-
-            username = configFactory.getFromProjectConfigWithInheritance(
-                    projectNameKey, CONFIG_NAME).getString(
-                    "username", "gerrit");
-
             ignore = configFactory.getFromProjectConfigWithInheritance(
                     projectNameKey, CONFIG_NAME).getString(
                     "ignore", "");
@@ -98,16 +88,6 @@ public class ProjectConfig
     public String getWebhookUrl()
     {
         return webhookUrl;
-    }
-
-    public String getChannel()
-    {
-        return channel;
-    }
-
-    public String getUsername()
-    {
-        return username;
     }
 
     public String getIgnore()

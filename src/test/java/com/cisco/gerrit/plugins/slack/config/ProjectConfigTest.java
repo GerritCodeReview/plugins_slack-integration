@@ -72,10 +72,6 @@ public class ProjectConfigTest
                 .thenReturn(true);
         when(mockPluginConfig.getString("webhookurl", ""))
                 .thenReturn("https://webook/");
-        when(mockPluginConfig.getString("channel", "general"))
-                .thenReturn("test-channel");
-        when(mockPluginConfig.getString("username", "gerrit"))
-                .thenReturn("test-user");
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn("^WIP.*");
 
@@ -92,17 +88,5 @@ public class ProjectConfigTest
     public void testGetWebhookUrl() throws Exception
     {
         assertThat(config.getWebhookUrl(), is(equalTo("https://webook/")));
-    }
-
-    @Test
-    public void testGetChannel() throws Exception
-    {
-        assertThat(config.getChannel(), is(equalTo("test-channel")));
-    }
-
-    @Test
-    public void testGetUsername() throws Exception
-    {
-        assertThat(config.getUsername(), is(equalTo("test-user")));
     }
 }
