@@ -18,7 +18,6 @@
 package com.cisco.gerrit.plugins.slack.message;
 
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
-import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.common.base.Ascii;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import org.slf4j.Logger;
@@ -68,31 +67,31 @@ public class CommentAddedMessageGenerator extends MessageGenerator
     @Override
     public String generate()
     {
-        String message;
-        message = "";
+        String message = "";
+
+        String whatHappened = String.format("%s (%s) commented on %s",
+                escape(event.author.name),
+                escape(event.author.username),
+                escape(event.change.url));
+        String topic = "";
+        if (event.change.topic != null && !event.change.topic.isEmpty()) {
+            topic = String.format(" - (%s)", event.change.topic);
+        }
+        String attachmentTitle = String.format("%s - (%s)%s",
+                escape(event.change.project),
+                escape(event.change.branch),
+                escape(topic));
+        String attachmentValue = escape(Ascii.truncate(event.comment, 200, "..."));
+
+        AttachmentMessage.Builder builder = new AttachmentMessage.Builder(config)
+                .withPretext(whatHappened)
+                .withColor(AttachmentMessage.Builder.COLOR_GOOD)
+                .withAttachmentTitle(attachmentTitle)
+                .withAttachmentValue(attachmentValue);
 
         try
         {
-            String template;
-            template = ResourceHelper.loadNamedResourceAsString(
-                    "basic-message-template.json");
-
-            StringBuilder text;
-            text = new StringBuilder();
-
-            text.append(escape(event.author.name));
-            text.append(" commented\\n>>>");
-            text.append(escape(event.change.project));
-            text.append(" (");
-            text.append(escape(event.change.branch));
-            text.append("): ");
-            text.append(escape(Ascii.truncate(event.comment, 200, "...")));
-            text.append(" (");
-            text.append(escape(event.change.url));
-            text.append(")");
-
-            message = String.format(template, text, config.getChannel(),
-                    config.getUsername());
+            message = builder.build().generate();
         }
         catch (Exception e)
         {
