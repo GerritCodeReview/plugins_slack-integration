@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +61,7 @@ public class ChangeMergedMessageGeneratorTest
     private ChangeMergedEvent mockEvent = mock(ChangeMergedEvent.class);
     private AccountAttribute mockAccount = mock(AccountAttribute.class);
     private ChangeAttribute mockChange = mock(ChangeAttribute.class);
+    private PatchSetAttribute mockPatchSet = mock(PatchSetAttribute.class);
 
     private ProjectConfig config;
 
@@ -157,18 +159,26 @@ public class ChangeMergedMessageGeneratorTest
         mockChange.branch = "master";
         mockChange.url = "https://change/";
         mockChange.commitMessage = "This is a title\nAnd a the body.";
+        mockChange.currentPatchSet = mockPatchSet;
+        mockPatchSet.number = "4";
 
         mockAccount.name = "Unit Tester";
+        mockAccount.username = "unittester";
 
         // Test
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
 
+        String expectedPretext;
+        expectedPretext = "Unit Tester (unittester) merged patch set #4 of https://change/";
+
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester merged\\n>>>" +
-                "testproject (master): This is a title (https://change/)\"," +
-                "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
+        expectedResult = String.format("{\"username\":\"%s\",\"channel\":\"#%s\"," +
+                        "\"attachments\":[{\"fallback\":\"%s\",\"pretext\":\"%s\",\"color\":\"%s\"," +
+                        "\"fields\":[{\"title\":\"%s\",\"value\":\"%s\",\"short\":false}]}]}\n",
+                "testuser", "testchannel", expectedPretext, expectedPretext,
+                "error", "testproject - (master)", "This is a title");
 
         String actualResult;
         actualResult = messageGenerator.generate();

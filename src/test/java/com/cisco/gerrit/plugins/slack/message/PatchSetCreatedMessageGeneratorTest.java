@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +59,7 @@ public class PatchSetCreatedMessageGeneratorTest
     private PatchSetCreatedEvent mockEvent = mock(PatchSetCreatedEvent.class);
     private AccountAttribute mockAccount = mock(AccountAttribute.class);
     private ChangeAttribute mockChange = mock(ChangeAttribute.class);
+    private PatchSetAttribute mockPatchSet = mock(PatchSetAttribute.class);
 
     private ProjectConfig config;
 
@@ -157,16 +159,99 @@ public class PatchSetCreatedMessageGeneratorTest
         mockChange.commitMessage = "This is a title\nAnd a the body.";
 
         mockAccount.name = "Unit Tester";
+        mockAccount.username = "unittester";
 
         // Test
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
 
+        String expectedPretext;
+        expectedPretext = "Unit Tester (unittester) proposed https://change/";
+
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester proposed\\n>>>" +
-                "testproject (master): This is a title (https://change/)\"," +
-                "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
+        expectedResult = String.format("{\"username\":\"%s\",\"channel\":\"#%s\"," +
+                        "\"attachments\":[{\"fallback\":\"%s\",\"pretext\":\"%s\",\"color\":\"%s\"," +
+                        "\"fields\":[{\"title\":\"%s\",\"value\":\"%s\",\"short\":false}]}]}\n",
+                "testuser", "testchannel", expectedPretext, expectedPretext,
+                "warning", "testproject - (master)", "This is a title");
+
+        String actualResult;
+        actualResult = messageGenerator.generate();
+
+        assertThat(actualResult, is(equalTo(expectedResult)));
+    }
+
+    @Test
+    public void generatesExpectedMessageWithNewPatchSet() throws Exception
+    {
+        // Setup mocks
+        mockEvent.change = mockChange;
+        mockEvent.uploader = mockAccount;
+        mockEvent.patchSet = mockPatchSet;
+
+        mockChange.project = "testproject";
+        mockChange.branch = "master";
+        mockChange.url = "https://change/";
+        mockChange.commitMessage = "This is a title\nAnd a the body.";
+
+        mockAccount.name = "Unit Tester";
+        mockAccount.username = "unittester";
+
+        mockPatchSet.number = "4";
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        String expectedPretext;
+        expectedPretext = "Unit Tester (unittester) proposed a new patch set" +
+                " (#4) at https://change/";
+
+        String expectedResult;
+        expectedResult = String.format("{\"username\":\"%s\",\"channel\":\"#%s\"," +
+                        "\"attachments\":[{\"fallback\":\"%s\",\"pretext\":\"%s\",\"color\":\"%s\"," +
+                        "\"fields\":[{\"title\":\"%s\",\"value\":\"%s\",\"short\":false}]}]}\n",
+                "testuser", "testchannel", expectedPretext, expectedPretext,
+                "warning", "testproject - (master)", "This is a title");
+
+        String actualResult;
+        actualResult = messageGenerator.generate();
+
+        assertThat(actualResult, is(equalTo(expectedResult)));
+    }
+
+    @Test
+    public void generatesExpectedMessageWithTopic() throws Exception
+    {
+        // Setup mocks
+        mockEvent.change = mockChange;
+        mockEvent.uploader = mockAccount;
+
+        mockChange.project = "testproject";
+        mockChange.branch = "master";
+        mockChange.url = "https://change/";
+        mockChange.commitMessage = "This is a title\nAnd a the body.";
+        mockChange.topic = "awesome-feature";
+
+        mockAccount.name = "Unit Tester";
+        mockAccount.username = "unittester";
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        String expectedPretext;
+        expectedPretext = "Unit Tester (unittester) proposed https://change/";
+
+        String expectedResult;
+        expectedResult = String.format("{\"username\":\"%s\",\"channel\":\"#%s\"," +
+                        "\"attachments\":[{\"fallback\":\"%s\",\"pretext\":\"%s\",\"color\":\"%s\"," +
+                        "\"fields\":[{\"title\":\"%s\",\"value\":\"%s\",\"short\":false}]}]}\n",
+                "testuser", "testchannel", expectedPretext, expectedPretext,
+                "warning", "testproject - (master) - (awesome-feature)", "This is a title");
 
         String actualResult;
         actualResult = messageGenerator.generate();

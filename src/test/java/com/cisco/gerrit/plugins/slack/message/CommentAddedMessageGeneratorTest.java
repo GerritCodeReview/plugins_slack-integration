@@ -158,17 +158,22 @@ public class CommentAddedMessageGeneratorTest
         mockChange.url = "https://change/";
 
         mockAccount.name = "Unit Tester";
+        mockAccount.username = "unittester";
 
         // Test
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
 
+        String expectedPretext;
+        expectedPretext = "Unit Tester (unittester) commented on https://change/";
+
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester commented\\n>>>" +
-                "testproject (master): This is the first line\n" +
-                "And the second line. (https://change/)\"," +
-                "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
+        expectedResult = String.format("{\"username\":\"%s\",\"channel\":\"#%s\"," +
+                        "\"attachments\":[{\"fallback\":\"%s\",\"pretext\":\"%s\",\"color\":\"%s\"," +
+                        "\"fields\":[{\"title\":\"%s\",\"value\":\"%s\",\"short\":false}]}]}\n",
+                "testuser", "testchannel", expectedPretext, expectedPretext,
+                "good", "testproject - (master)", "This is the first line\nAnd the second line.");
 
         String actualResult;
         actualResult = messageGenerator.generate();
@@ -193,16 +198,22 @@ public class CommentAddedMessageGeneratorTest
         mockChange.url = "https://change/";
 
         mockAccount.name = "Unit Tester";
+        mockAccount.username = "unittester";
 
         // Test
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
 
+        String expectedPretext;
+        expectedPretext = "Unit Tester (unittester) commented on https://change/";
+
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester commented\\n>>>" +
-                "testproject (master): " + mockEvent.comment.substring(0, 197) + "... (https://change/)\"," +
-                "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
+        expectedResult = String.format("{\"username\":\"%s\",\"channel\":\"#%s\"," +
+                        "\"attachments\":[{\"fallback\":\"%s\",\"pretext\":\"%s\",\"color\":\"%s\"," +
+                        "\"fields\":[{\"title\":\"%s\",\"value\":\"%s\",\"short\":false}]}]}\n",
+                "testuser", "testchannel", expectedPretext, expectedPretext,
+                "good", "testproject - (master)", mockEvent.comment.substring(0, 197) + "...");
 
         String actualResult;
         actualResult = messageGenerator.generate();

@@ -18,7 +18,6 @@
 package com.cisco.gerrit.plugins.slack.message;
 
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
-import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,31 +88,45 @@ public class PatchSetCreatedMessageGenerator extends MessageGenerator
     @Override
     public String generate()
     {
-        String message;
-        message = "";
+        String message = "";
+        String patchSet = "";
+
+        if (event.patchSet != null) {
+            boolean isNewPatchSet;
+            try {
+                isNewPatchSet = (Integer.parseInt(event.patchSet.number) > 1);
+            } catch (NumberFormatException nfe) {
+                isNewPatchSet = false;
+            }
+            if (isNewPatchSet) {
+                patchSet = String.format("a new patch set (#%s) at ", event.patchSet.number);
+            }
+        }
+
+        String whatHappened = String.format("%s (%s) proposed %s%s",
+                escape(event.uploader.name),
+                escape(event.uploader.username),
+                escape(patchSet),
+                escape(event.change.url));
+        String topic = "";
+        if (event.change.topic != null && !event.change.topic.isEmpty()) {
+            topic = String.format(" - (%s)", event.change.topic);
+        }
+        String attachmentTitle = String.format("%s - (%s)%s",
+                escape(event.change.project),
+                escape(event.change.branch),
+                escape(topic));
+        String attachmentValue = escape(event.change.commitMessage.split("\n")[0]);
+
+        AttachmentMessage.Builder builder = new AttachmentMessage.Builder(config)
+                .withPretext(whatHappened)
+                .withColor(AttachmentMessage.Builder.COLOR_WARNING)
+                .withAttachmentTitle(attachmentTitle)
+                .withAttachmentValue(attachmentValue);
 
         try
         {
-            String template;
-            template = ResourceHelper.loadNamedResourceAsString(
-                    "basic-message-template.json");
-
-            StringBuilder text;
-            text = new StringBuilder();
-
-            text.append(escape(event.uploader.name));
-            text.append(" proposed\\n>>>");
-            text.append(escape(event.change.project));
-            text.append(" (");
-            text.append(escape(event.change.branch));
-            text.append("): ");
-            text.append(escape(event.change.commitMessage.split("\n")[0]));
-            text.append(" (");
-            text.append(escape(event.change.url));
-            text.append(")");
-
-            message = String.format(template, text, config.getChannel(),
-                    config.getUsername());
+            message = builder.build().generate();
         }
         catch (Exception e)
         {
