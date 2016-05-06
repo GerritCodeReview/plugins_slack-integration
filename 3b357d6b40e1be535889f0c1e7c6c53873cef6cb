@@ -16,6 +16,47 @@
       "revId": "3b357d6b40e1be535889f0c1e7c6c53873cef6cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd920f66_eb7c31a7",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/ChangeMergedMessageGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1014948
+      },
+      "writtenOn": "2016-05-06T11:17:10Z",
+      "side": 1,
+      "message": "interesting case, seems if no username is set up by the user, who merged the change, it will throw a NPE.\n\nWhat else i noticed is ...",
+      "parentUuid": "ad987b90_42921209",
+      "revId": "3b357d6b40e1be535889f0c1e7c6c53873cef6cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd920f66_0b4b3d77",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/ChangeMergedMessageGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1014948
+      },
+      "writtenOn": "2016-05-06T11:17:10Z",
+      "side": 1,
+      "message": "... that the current patch set can be null sometimes as well.\n\nso may need additional null checks",
+      "range": {
+        "startLine": 75,
+        "startChar": 36,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "3b357d6b40e1be535889f0c1e7c6c53873cef6cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
