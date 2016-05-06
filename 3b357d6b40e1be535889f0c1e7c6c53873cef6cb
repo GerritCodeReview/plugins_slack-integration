@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_42921209",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/ChangeMergedMessageGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2016-05-06T02:39:04Z",
+      "side": 1,
+      "message": "This is curious. I get a null pointer exception here when merging a test commit. All other events are able to access my username in my test setup. Have you run into this before?\n\njava.lang.NullPointerException\n\tat com.cisco.gerrit.plugins.slack.message.ChangeMergedMessageGenerator.generate(ChangeMergedMessageGenerator.java:74)",
+      "revId": "3b357d6b40e1be535889f0c1e7c6c53873cef6cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
