@@ -17,7 +17,7 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class ChangeMergedMessageGenerator extends MessageGenerator
     private static final Logger LOGGER =
             LoggerFactory.getLogger(ChangeMergedMessageGenerator.class);
 
-    private ProjectConfig config;
+    private PluginConfigSnapshot config;
     private ChangeMergedEvent event;
 
     /**
@@ -47,7 +47,7 @@ public class ChangeMergedMessageGenerator extends MessageGenerator
      * @param event The ChangeMergedEvent instance to generate a message for.
      */
     protected ChangeMergedMessageGenerator(ChangeMergedEvent event,
-            ProjectConfig config)
+            PluginConfigSnapshot config2)
     {
         if (event == null)
         {
@@ -55,7 +55,7 @@ public class ChangeMergedMessageGenerator extends MessageGenerator
         }
 
         this.event = event;
-        this.config = config;
+        this.config = config2;
     }
 
     @Override

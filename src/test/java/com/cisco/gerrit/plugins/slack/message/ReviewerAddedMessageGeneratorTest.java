@@ -17,7 +17,8 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileSnapshot;
 import com.google.common.base.Suppliers;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfig;
@@ -69,14 +70,14 @@ public class ReviewerAddedMessageGeneratorTest
         when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
     }
 
-    private ProjectConfig getConfig(boolean publishOnReviewerAdded) throws Exception
+    private PluginConfigSnapshot getConfig(boolean publishOnReviewerAdded) throws Exception
     {
         Project.NameKey projectNameKey;
         projectNameKey = Project.NameKey.parse(PROJECT_NAME);
 
         // Setup mocks
         when(mockConfigFactory.getFromProjectConfigWithInheritance(
-                projectNameKey, ProjectConfig.CONFIG_NAME))
+                projectNameKey, ProjectConfigFileSnapshot.CONFIG_NAME))
                 .thenReturn(mockPluginConfig);
 
         when(mockPluginConfig.getBoolean("enabled", false))
@@ -92,10 +93,10 @@ public class ReviewerAddedMessageGeneratorTest
         when(mockPluginConfig.getBoolean("publish-on-reviewer-added", true))
                 .thenReturn(publishOnReviewerAdded);
 
-        return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+        return new ProjectConfigFileSnapshot(mockConfigFactory, PROJECT_NAME);
     }
 
-    private ProjectConfig getConfig() throws Exception
+    private PluginConfigSnapshot getConfig() throws Exception
     {
         return getConfig(true /* publishOnReviewerAdded */);
     }
@@ -103,7 +104,7 @@ public class ReviewerAddedMessageGeneratorTest
     @Test
     public void factoryCreatesExpectedType() throws Exception
     {
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
@@ -116,7 +117,7 @@ public class ReviewerAddedMessageGeneratorTest
     public void publishesWhenExpected() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
 
         // Test
         MessageGenerator messageGenerator;
@@ -130,7 +131,7 @@ public class ReviewerAddedMessageGeneratorTest
     public void doesNotPublishWhenTurnedOff() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig(false /* publishOnReviewerAdded */);
+        PluginConfigSnapshot config = getConfig(false /* publishOnReviewerAdded */);
 
         // Test
         MessageGenerator messageGenerator;
@@ -143,7 +144,7 @@ public class ReviewerAddedMessageGeneratorTest
     @Test
     public void handlesInvalidIgnorePatterns() throws Exception
     {
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn(null);
 
@@ -159,7 +160,7 @@ public class ReviewerAddedMessageGeneratorTest
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockEvent.reviewer = Suppliers.ofInstance(mockAccount);
 

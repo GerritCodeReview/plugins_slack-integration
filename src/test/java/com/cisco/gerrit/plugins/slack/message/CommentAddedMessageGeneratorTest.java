@@ -17,8 +17,9 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.common.base.Suppliers;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileSnapshot;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -70,14 +71,14 @@ public class CommentAddedMessageGeneratorTest
         when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
     }
 
-    private ProjectConfig getConfig(boolean publishOnCommentAdded) throws Exception
+    private PluginConfigSnapshot getConfig(boolean publishOnCommentAdded) throws Exception
     {
         Project.NameKey projectNameKey;
         projectNameKey = Project.NameKey.parse(PROJECT_NAME);
 
         // Setup mocks
         when(mockConfigFactory.getFromProjectConfigWithInheritance(
-                projectNameKey, ProjectConfig.CONFIG_NAME))
+                projectNameKey, ProjectConfigFileSnapshot.CONFIG_NAME))
                 .thenReturn(mockPluginConfig);
 
         when(mockPluginConfig.getBoolean("enabled", false))
@@ -93,10 +94,10 @@ public class CommentAddedMessageGeneratorTest
         when(mockPluginConfig.getBoolean("publish-on-comment-added", true))
                 .thenReturn(publishOnCommentAdded);
 
-        return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+        return new ProjectConfigFileSnapshot(mockConfigFactory, PROJECT_NAME);
     }
 
-    private ProjectConfig getConfig() throws Exception
+    private PluginConfigSnapshot getConfig() throws Exception
     {
         return getConfig(true /* publishOnCommentAdded */);
     }
@@ -104,7 +105,7 @@ public class CommentAddedMessageGeneratorTest
     @Test
     public void factoryCreatesExpectedType() throws Exception
     {
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
@@ -117,7 +118,7 @@ public class CommentAddedMessageGeneratorTest
     public void publishesWhenExpected() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.comment = "This is a title\nAnd a the body.";
 
         // Test
@@ -132,7 +133,7 @@ public class CommentAddedMessageGeneratorTest
     public void publishesWhenMessageMatchesIgnore() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.comment = "WIP:This is a title\nAnd a the body.";
 
         // Test
@@ -147,7 +148,7 @@ public class CommentAddedMessageGeneratorTest
     public void doesNotPublishWhenTurnedOff() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig(false /* publishOnCommentAdded */);
+        PluginConfigSnapshot config = getConfig(false /* publishOnCommentAdded */);
         mockEvent.comment = "This is a title\nAnd a the body.";
 
         // Test
@@ -161,7 +162,7 @@ public class CommentAddedMessageGeneratorTest
     @Test
     public void handlesInvalidIgnorePatterns() throws Exception
     {
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn(null);
 
@@ -177,7 +178,7 @@ public class CommentAddedMessageGeneratorTest
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockEvent.author = Suppliers.ofInstance(mockAccount);
 
@@ -212,7 +213,7 @@ public class CommentAddedMessageGeneratorTest
     public void generatesExpectedMessageForLongComment() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockEvent.author = Suppliers.ofInstance(mockAccount);
 

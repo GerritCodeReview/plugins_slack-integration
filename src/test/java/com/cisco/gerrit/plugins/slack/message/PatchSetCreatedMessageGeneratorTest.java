@@ -17,8 +17,9 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.common.base.Suppliers;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileSnapshot;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -67,7 +68,7 @@ public class PatchSetCreatedMessageGeneratorTest
         when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
     }
 
-    private ProjectConfig getConfig(
+    private PluginConfigSnapshot getConfig(
         String ignore,
         boolean publishOnPatchSetCreated)
         throws Exception
@@ -77,7 +78,7 @@ public class PatchSetCreatedMessageGeneratorTest
 
         // Setup mocks
         when(mockConfigFactory.getFromProjectConfigWithInheritance(
-                projectNameKey, ProjectConfig.CONFIG_NAME))
+                projectNameKey, ProjectConfigFileSnapshot.CONFIG_NAME))
                 .thenReturn(mockPluginConfig);
 
         when(mockPluginConfig.getBoolean("enabled", false))
@@ -93,20 +94,20 @@ public class PatchSetCreatedMessageGeneratorTest
         when(mockPluginConfig.getBoolean("publish-on-patch-set-created", true))
                 .thenReturn(publishOnPatchSetCreated);
 
-        return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+        return new ProjectConfigFileSnapshot(mockConfigFactory, PROJECT_NAME);
     }
 
-    private ProjectConfig getConfig(String ignore) throws Exception
+    private PluginConfigSnapshot getConfig(String ignore) throws Exception
     {
         return getConfig(ignore, true /* publishOnPatchSetCreated */);
     }
 
-    private ProjectConfig getConfig(boolean publishOnPatchSetCreated) throws Exception
+    private PluginConfigSnapshot getConfig(boolean publishOnPatchSetCreated) throws Exception
     {
         return getConfig("^WIP.*", publishOnPatchSetCreated);
     }
 
-    private ProjectConfig getConfig() throws Exception
+    private PluginConfigSnapshot getConfig() throws Exception
     {
         return getConfig("^WIP.*", true /* publishOnPatchSetCreated */);
     }
@@ -114,7 +115,7 @@ public class PatchSetCreatedMessageGeneratorTest
     @Test
     public void factoryCreatesExpectedType() throws Exception
     {
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         MessageGenerator messageGenerator;
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
@@ -127,7 +128,7 @@ public class PatchSetCreatedMessageGeneratorTest
     public void publishesWhenExpected() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockChange.commitMessage = "This is a title\nAnd a the body.";
 
@@ -143,7 +144,7 @@ public class PatchSetCreatedMessageGeneratorTest
     public void doesNotPublishWhenMessageMatchesIgnore() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockChange.commitMessage = "WIP-This is a title\nAnd a the body.";
 
@@ -159,7 +160,7 @@ public class PatchSetCreatedMessageGeneratorTest
     public void doesNotPublishWhenTurnedOff() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig(false /* publishOnPatchSetCreated */);
+        PluginConfigSnapshot config = getConfig(false /* publishOnPatchSetCreated */);
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockChange.commitMessage = "This is a title\nAnd a the body.";
 
@@ -174,7 +175,7 @@ public class PatchSetCreatedMessageGeneratorTest
     @Test
     public void handlesInvalidIgnorePatterns() throws Exception
     {
-        ProjectConfig config = getConfig(null /* ignore */);
+        PluginConfigSnapshot config = getConfig(null /* ignore */);
 
         // Test
         MessageGenerator messageGenerator;
@@ -188,7 +189,7 @@ public class PatchSetCreatedMessageGeneratorTest
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig();
+        PluginConfigSnapshot config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
         mockEvent.uploader = Suppliers.ofInstance(mockAccount);
 

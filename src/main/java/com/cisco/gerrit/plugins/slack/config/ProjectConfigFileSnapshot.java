@@ -28,13 +28,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matthew Montgomery
  */
-public class ProjectConfig
+public class ProjectConfigFileSnapshot implements PluginConfigSnapshot
 {
     /**
      * The class logger instance.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(
-            ProjectConfig.class);
+            ProjectConfigFileSnapshot.class);
 
     /**
      * The name of the plugin config section to lookup within the gerrit.config
@@ -54,11 +54,13 @@ public class ProjectConfig
 
     /**
      * Creates a new instance of the ProjectConfig class for the given project.
+     * Fetches the configuration information from the <project>.config file, which
+     * contains a section for the plugin in the form of [plugin "slack-integration"].
      *
      * @param configFactory The Gerrit PluginConfigFactory instance to use.
      * @param project The project to use when looking up a configuration.
      */
-    public ProjectConfig(PluginConfigFactory configFactory, String project)
+    public ProjectConfigFileSnapshot(PluginConfigFactory configFactory, String project)
     {
         enabled = false;
 
@@ -134,7 +136,7 @@ public class ProjectConfig
         return username;
     }
 
-    public String getIgnore()
+    public String getIgnorePattern()
     {
         return ignore;
     }

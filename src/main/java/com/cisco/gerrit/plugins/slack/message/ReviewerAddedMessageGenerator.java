@@ -17,7 +17,7 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.common.base.Ascii;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
@@ -38,7 +38,7 @@ public class ReviewerAddedMessageGenerator extends MessageGenerator
     private static final Logger LOGGER =
             LoggerFactory.getLogger(ReviewerAddedMessageGenerator.class);
 
-    private ProjectConfig config;
+    private PluginConfigSnapshot config;
     private ReviewerAddedEvent event;
 
     /**
@@ -48,7 +48,7 @@ public class ReviewerAddedMessageGenerator extends MessageGenerator
      * @param event The ReviewerAddedEvent instance to generate a message for.
      */
     protected ReviewerAddedMessageGenerator(ReviewerAddedEvent event,
-                                            ProjectConfig config)
+            PluginConfigSnapshot config)
     {
         if (event == null)
         {
