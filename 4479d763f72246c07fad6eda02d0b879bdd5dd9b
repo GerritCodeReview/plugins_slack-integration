@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8582cb80_6192965c",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-29T15:19:50Z",
+      "side": 1,
+      "message": "We might as well use the very latest, which is currently 2.13.1",
+      "revId": "4479d763f72246c07fad6eda02d0b879bdd5dd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
