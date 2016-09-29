@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65831788_c0c19e4a",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-29T15:02:29Z",
+      "side": 1,
+      "message": "2.13 is built with Java 7.  We shouldn\u0027t update to Java 8 until 2.14-SNAPSHOT.",
+      "range": {
+        "startLine": 97,
+        "startChar": 20,
+        "endLine": 98,
+        "endChar": 40
+      },
+      "revId": "9b71cf68e1de9e2ddcdf73a3562c73c82d59d292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
