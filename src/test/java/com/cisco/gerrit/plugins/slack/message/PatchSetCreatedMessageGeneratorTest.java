@@ -104,7 +104,7 @@ public class PatchSetCreatedMessageGeneratorTest
     public void publishesWhenExpected() throws Exception
     {
         // Setup mocks
-        mockEvent.change = mockChange;
+        mockEvent.change = () -> mockChange;
         mockChange.commitMessage = "This is a title\nAnd a the body.";
 
         // Test
@@ -119,7 +119,7 @@ public class PatchSetCreatedMessageGeneratorTest
     public void doesNotPublishWhenExpected() throws Exception
     {
         // Setup mocks
-        mockEvent.change = mockChange;
+        mockEvent.change = () -> mockChange;
         mockChange.commitMessage = "WIP-This is a title\nAnd a the body.";
 
         // Test
@@ -148,8 +148,8 @@ public class PatchSetCreatedMessageGeneratorTest
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
-        mockEvent.change = mockChange;
-        mockEvent.uploader = mockAccount;
+        mockEvent.change = () -> mockChange;
+        mockEvent.uploader = () -> mockAccount;
 
         mockChange.project = "testproject";
         mockChange.branch = "master";

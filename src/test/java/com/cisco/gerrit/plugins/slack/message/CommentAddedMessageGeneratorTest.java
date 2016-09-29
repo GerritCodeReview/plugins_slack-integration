@@ -148,8 +148,8 @@ public class CommentAddedMessageGeneratorTest
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
-        mockEvent.change = mockChange;
-        mockEvent.author = mockAccount;
+        mockEvent.change = () -> mockChange;
+        mockEvent.author = () -> mockAccount;
 
         mockEvent.comment = "This is the first line\nAnd the second line.";
 
@@ -180,8 +180,8 @@ public class CommentAddedMessageGeneratorTest
     public void generatesExpectedMessageForLongComment() throws Exception
     {
         // Setup mocks
-        mockEvent.change = mockChange;
-        mockEvent.author = mockAccount;
+        mockEvent.change = () -> mockChange;
+        mockEvent.author = () -> mockAccount;
 
         mockEvent.comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                 "Integer tristique ligula nec dapibus lobortis. Nulla venenatis, lacus quis vulputate volutpat, " +
