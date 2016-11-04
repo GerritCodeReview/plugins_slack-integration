@@ -60,6 +60,7 @@ public class CommentAddedMessageGeneratorTest
     private CommentAddedEvent mockEvent = mock(CommentAddedEvent.class);
     private AccountAttribute mockAccount = mock(AccountAttribute.class);
     private ChangeAttribute mockChange = mock(ChangeAttribute.class);
+    private AccountAttribute mockOwner = mock(AccountAttribute.class);
 
     private ProjectConfig config;
 
@@ -156,6 +157,8 @@ public class CommentAddedMessageGeneratorTest
         mockChange.project = "testproject";
         mockChange.branch = "master";
         mockChange.url = "https://change/";
+        mockChange.owner = mockOwner;
+        mockOwner.name = "Owner";
 
         mockAccount.name = "Unit Tester";
 
@@ -165,7 +168,7 @@ public class CommentAddedMessageGeneratorTest
                 mockEvent, config);
 
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester commented\\n>>>" +
+        expectedResult = "{\"text\": \"Unit Tester commented to Owner\\n>>>" +
                 "testproject (master): This is the first line\n" +
                 "And the second line. (https://change/)\"," +
                 "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
@@ -191,6 +194,8 @@ public class CommentAddedMessageGeneratorTest
         mockChange.project = "testproject";
         mockChange.branch = "master";
         mockChange.url = "https://change/";
+        mockChange.owner = mockOwner;
+        mockOwner.name = "Owner";
 
         mockAccount.name = "Unit Tester";
 
@@ -200,7 +205,7 @@ public class CommentAddedMessageGeneratorTest
                 mockEvent, config);
 
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester commented\\n>>>" +
+        expectedResult = "{\"text\": \"Unit Tester commented to Owner\\n>>>" +
                 "testproject (master): " + mockEvent.comment.substring(0, 197) + "... (https://change/)\"," +
                 "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
 
