@@ -81,7 +81,9 @@ public class CommentAddedMessageGenerator extends MessageGenerator
             text = new StringBuilder();
 
             text.append(escape(event.author.name));
-            text.append(" commented\\n>>>");
+            text.append(" commented to ");
+            text.append(escape(event.change.owner.name));
+            text.append("\\n>>>");
             text.append(escape(event.change.project));
             text.append(" (");
             text.append(escape(event.change.branch));
