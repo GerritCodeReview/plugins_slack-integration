@@ -78,6 +78,12 @@ public class ProjectConfigTest
                 .thenReturn("test-user");
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn("^WIP.*");
+        when(mockPluginConfig.getBoolean("notify-on-patch-set-created", true))
+                .thenReturn(true);
+        when(mockPluginConfig.getBoolean("notify-on-change-merged", true))
+                .thenReturn(true);
+        when(mockPluginConfig.getBoolean("notify-on-comment-added", true))
+                .thenReturn(true);
 
         config = new ProjectConfig(mockConfigFactory, PROJECT_NAME);
     }
@@ -104,5 +110,23 @@ public class ProjectConfigTest
     public void testGetUsername() throws Exception
     {
         assertThat(config.getUsername(), is(equalTo("test-user")));
+    }
+
+    @Test
+    public void testShouldNotifyOnPatchSetCreated() throws Exception
+    {
+        assertThat(config.shouldNotifyOnPatchSetCreated(), is(equalTo(true)));
+    }
+
+    @Test
+    public void testShouldNotifyOnChangeMerged() throws Exception
+    {
+        assertThat(config.shouldNotifyOnChangeMerged(), is(equalTo(true)));
+    }
+
+    @Test
+    public void testShouldNotifyOnCommentAdded() throws Exception
+    {
+        assertThat(config.shouldNotifyOnCommentAdded(), is(equalTo(true)));
     }
 }

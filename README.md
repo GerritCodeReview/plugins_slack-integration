@@ -103,3 +103,14 @@ The following configuration options are available
         A "dotall" enabled regular expression pattern that, when matches
         against a commit message, will prevent the publishing of patchset
         created event messages (defaults to an empty string).
+    notify-on-patch-set-created - boolean (true/false)
+        Whether a Slack notification should be sent when a new patch set
+        is created.
+    notify-on-change-merged - boolean (true/false)
+        Whether a Slack notification should be sent when a change is merged.
+    notify-on-comment-added - boolean (true/false)
+        Whether a Slack notification should be sent when a comment is added
+        to a review.
+    notify-on-reviewer-added - boolean (true/false)
+        Whether a Slack notification should be sent when a reviewer is added
+        to a review.
