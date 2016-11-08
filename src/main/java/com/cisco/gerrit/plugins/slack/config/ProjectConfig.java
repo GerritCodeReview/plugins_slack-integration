@@ -47,6 +47,9 @@ public class ProjectConfig
     private String channel;
     private String username;
     private String ignore;
+    private boolean notifyOnPatchSetCreated;
+    private boolean notifyOnChangeMerged;
+    private boolean notifyOnCommentAdded;
 
     /**
      * Creates a new instance of the ProjectConfig class for the given project.
@@ -82,6 +85,21 @@ public class ProjectConfig
             ignore = configFactory.getFromProjectConfigWithInheritance(
                     projectNameKey, CONFIG_NAME).getString(
                     "ignore", "");
+
+            notifyOnPatchSetCreated =
+                configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "notify-on-patch-set-created", true);
+
+            notifyOnChangeMerged =
+                configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "notify-on-change-merged", true);
+
+            notifyOnCommentAdded =
+                configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "notify-on-comment-added", true);
         }
         catch (NoSuchProjectException e)
         {
@@ -113,5 +131,20 @@ public class ProjectConfig
     public String getIgnore()
     {
         return ignore;
+    }
+
+    public boolean shouldNotifyOnPatchSetCreated()
+    {
+        return notifyOnPatchSetCreated;
+    }
+
+    public boolean shouldNotifyOnChangeMerged()
+    {
+        return notifyOnChangeMerged;
+    }
+
+    public boolean shouldNotifyOnCommentAdded()
+    {
+        return notifyOnCommentAdded;
     }
 }
