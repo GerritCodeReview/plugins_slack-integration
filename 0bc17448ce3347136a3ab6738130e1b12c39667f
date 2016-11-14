@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b70b387_17ef5645",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1031927
+      },
+      "writtenOn": "2016-11-14T18:14:04Z",
+      "side": 1,
+      "message": "Should the default be true (matching other messages) or false (to maintain backwards compatibility)?",
+      "range": {
+        "startLine": 108,
+        "startChar": 49,
+        "endLine": 108,
+        "endChar": 53
+      },
+      "revId": "0bc17448ce3347136a3ab6738130e1b12c39667f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
