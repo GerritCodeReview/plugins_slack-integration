@@ -16,6 +16,24 @@
       "revId": "ce2a7ab38a3a2faeb80dfc43adc15d9a164f4f62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c3fba_566c72e5",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031927
+      },
+      "writtenOn": "2016-11-14T17:18:10Z",
+      "side": 1,
+      "message": "Yeah, makes sense. Done.",
+      "parentUuid": "0b70b387_b744e290",
+      "revId": "ce2a7ab38a3a2faeb80dfc43adc15d9a164f4f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
