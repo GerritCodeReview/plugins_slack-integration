@@ -24,7 +24,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
-import com.google.gerrit.server.events.CommentAddedEvent;
+import com.google.gerrit.server.events.ReviewerAddedEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,13 +39,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for the CommentAddedMessageGeneratorTest class. The expected behavior
- * is that the CommentAddedMessageGeneratorTest  should publish regardless of a
- * configured ignore pattern.
+ * Tests for the ReviewerAddedMessageGeneratorTest class. The expected behavior
+ * is that the ReviewerAddedMessageGeneratorTest should publish if both the plugin
+ * and publish-on-reviewer-added are enabled.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Project.NameKey.class})
-public class CommentAddedMessageGeneratorTest
+public class ReviewerAddedMessageGeneratorTest
 {
     private static final String PROJECT_NAME = "test-project";
 
@@ -58,7 +58,7 @@ public class CommentAddedMessageGeneratorTest
     private PluginConfig mockPluginConfig =
             mock(PluginConfig.class);
 
-    private CommentAddedEvent mockEvent = mock(CommentAddedEvent.class);
+    private ReviewerAddedEvent mockEvent = mock(ReviewerAddedEvent.class);
     private AccountAttribute mockAccount = mock(AccountAttribute.class);
     private ChangeAttribute mockChange = mock(ChangeAttribute.class);
 
@@ -69,7 +69,7 @@ public class CommentAddedMessageGeneratorTest
         when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
     }
 
-    private ProjectConfig getConfig(boolean publishOnCommentAdded) throws Exception
+    private ProjectConfig getConfig(boolean publishOnReviewerAdded) throws Exception
     {
         Project.NameKey projectNameKey;
         projectNameKey = Project.NameKey.parse(PROJECT_NAME);
@@ -89,15 +89,15 @@ public class CommentAddedMessageGeneratorTest
                 .thenReturn("testuser");
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn("^WIP.*");
-        when(mockPluginConfig.getBoolean("publish-on-comment-added", true))
-                .thenReturn(publishOnCommentAdded);
+        when(mockPluginConfig.getBoolean("publish-on-reviewer-added", true))
+                .thenReturn(publishOnReviewerAdded);
 
         return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
     }
 
     private ProjectConfig getConfig() throws Exception
     {
-        return getConfig(true /* publishOnCommentAdded */);
+        return getConfig(true /* publishOnReviewerAdded */);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class CommentAddedMessageGeneratorTest
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
 
-        assertThat(messageGenerator instanceof CommentAddedMessageGenerator,
+        assertThat(messageGenerator instanceof ReviewerAddedMessageGenerator,
                 is(true));
     }
 
@@ -117,22 +117,6 @@ public class CommentAddedMessageGeneratorTest
     {
         // Setup mocks
         ProjectConfig config = getConfig();
-        mockEvent.comment = "This is a title\nAnd a the body.";
-
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
-
-        assertThat(messageGenerator.shouldPublish(), is(true));
-    }
-
-    @Test
-    public void publishesWhenMessageMatchesIgnore() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig();
-        mockEvent.comment = "WIP:This is a title\nAnd a the body.";
 
         // Test
         MessageGenerator messageGenerator;
@@ -146,8 +130,7 @@ public class CommentAddedMessageGeneratorTest
     public void doesNotPublishWhenTurnedOff() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig(false /* publishOnCommentAdded */);
-        mockEvent.comment = "This is a title\nAnd a the body.";
+        ProjectConfig config = getConfig(false /* publishOnReviewerAdded */);
 
         // Test
         MessageGenerator messageGenerator;
@@ -178,12 +161,11 @@ public class CommentAddedMessageGeneratorTest
         // Setup mocks
         ProjectConfig config = getConfig();
         mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockEvent.author = Suppliers.ofInstance(mockAccount);
-
-        mockEvent.comment = "This is the first line\nAnd the second line.";
+        mockEvent.reviewer = Suppliers.ofInstance(mockAccount);
 
         mockChange.project = "testproject";
         mockChange.branch = "master";
+        mockChange.commitMessage = "This is the first line\nAnd the second line.";
         mockChange.url = "https://change/";
 
         mockAccount.name = "Unit Tester";
@@ -194,50 +176,14 @@ public class CommentAddedMessageGeneratorTest
                 mockEvent, config);
 
         String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester commented\\n>>>" +
-                "testproject (master): This is the first line\n" +
-                "And the second line. (https://change/)\"," +
-                "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
+        expectedResult = "{\"text\": \"Unit Tester was added to review\\n>>>" +
+                "testproject (master): This is the first line" +
+                " (https://change/)\",\"channel\": \"#testchannel\"," +
+                "\"username\": \"testuser\"}\n";
 
         String actualResult;
         actualResult = messageGenerator.generate();
 
         assertThat(actualResult, is(equalTo(expectedResult)));
     }
-
-    @Test
-    public void generatesExpectedMessageForLongComment() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig();
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockEvent.author = Suppliers.ofInstance(mockAccount);
-
-        mockEvent.comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Integer tristique ligula nec dapibus lobortis. Nulla venenatis, lacus quis vulputate volutpat, " +
-                "sem neque ornare eros, vel sodales magna risus et diam. Maecenas ultricies justo dictum orci " +
-                "scelerisque consequat a vel purus.";
-
-        mockChange.project = "testproject";
-        mockChange.branch = "master";
-        mockChange.url = "https://change/";
-
-        mockAccount.name = "Unit Tester";
-
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
-
-        String expectedResult;
-        expectedResult = "{\"text\": \"Unit Tester commented\\n>>>" +
-                "testproject (master): " + mockEvent.comment.substring(0, 197) + "... (https://change/)\"," +
-                "\"channel\": \"#testchannel\",\"username\": \"testuser\"}\n";
-
-        String actualResult;
-        actualResult = messageGenerator.generate();
-
-        assertThat(actualResult, is(equalTo(expectedResult)));
-    }
-
 }
