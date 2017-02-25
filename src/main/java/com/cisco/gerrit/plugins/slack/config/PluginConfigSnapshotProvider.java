@@ -17,7 +17,8 @@ public class PluginConfigSnapshotProvider
 		
 		Project.NameKey projectKey = Project.NameKey.parse(projectName);
 		Config pluginConfig =
-				configFactory.getProjectPluginConfig(projectKey, ProjectConfigFileSnapshot.CONFIG_NAME);
+				configFactory.getProjectPluginConfigWithInheritance(
+				        projectKey, ProjectConfigFileSnapshot.CONFIG_NAME);
 		
 		Set<String> subsections = pluginConfig.getSubsections(
 				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME);

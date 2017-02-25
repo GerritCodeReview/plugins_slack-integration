@@ -43,7 +43,7 @@ public class TestToolbox
         when(pluginConfigFactory.getFromProjectConfigWithInheritance(
         		projectKey, ProjectConfigFileSnapshot.CONFIG_NAME))
                 .thenReturn(pluginConfig);
-        when(pluginConfigFactory.getProjectPluginConfig(
+        when(pluginConfigFactory.getProjectPluginConfigWithInheritance(
         		projectKey, ProjectConfigFileSnapshot.CONFIG_NAME))
         		.thenReturn(new Config());
         
@@ -100,7 +100,7 @@ public class TestToolbox
 			.thenReturn("^WIP.*");		
 		
 		PluginConfigFactory configFactory = mock(PluginConfigFactory.class);
-		when(configFactory.getProjectPluginConfig(
+		when(configFactory.getProjectPluginConfigWithInheritance(
 				projectKey, ProjectConfigFileSnapshot.CONFIG_NAME))
 			.thenReturn(pluginConfig);
 

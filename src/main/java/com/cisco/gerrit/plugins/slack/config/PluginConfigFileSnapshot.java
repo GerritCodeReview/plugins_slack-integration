@@ -50,7 +50,7 @@ public class PluginConfigFileSnapshot implements PluginConfigSnapshot
         	final String BRANCH_SECTION_NAME = "branch";
         	
         	// Returns empty configuration object, if <plugin-name>.config does not exist
-        	Config pluginConfig = configFactory.getProjectPluginConfig(
+        	Config pluginConfig = configFactory.getProjectPluginConfigWithInheritance(
             		gerritProjectKey, PLUGIN_NAME);
         	
             Set<String> subsections = pluginConfig.getSubsections(BRANCH_SECTION_NAME);
