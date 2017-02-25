@@ -20,7 +20,6 @@ package com.cisco.gerrit.plugins.slack.message;
 import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
-import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.PatchSetEvent;
 

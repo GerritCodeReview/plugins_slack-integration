@@ -5,9 +5,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import static org.hamcrest.core.Is.is;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.*;
 import static org.junit.Assert.*;

@@ -18,7 +18,6 @@
 package com.cisco.gerrit.plugins.slack.message;
 
 import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
-import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileSnapshot;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.common.base.Ascii;
 import com.google.gerrit.server.events.CommentAddedEvent;
