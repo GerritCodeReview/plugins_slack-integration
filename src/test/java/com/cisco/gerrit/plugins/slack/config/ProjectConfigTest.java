@@ -52,34 +52,14 @@ public class ProjectConfigTest
     private PluginConfig mockPluginConfig =
             mock(PluginConfig.class);
 
-    private ProjectConfig config;
+    private ProjectConfigFileBasedSnapshot config;
 
     @Before
     public void setup() throws Exception
     {
-        PowerMockito.mockStatic(Project.NameKey.class);
-        when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-
-        Project.NameKey projectNameKey;
-        projectNameKey = Project.NameKey.parse(PROJECT_NAME);
-
-        // Setup mocks
-        when(mockConfigFactory.getFromProjectConfigWithInheritance(
-                projectNameKey, ProjectConfig.CONFIG_NAME))
-                .thenReturn(mockPluginConfig);
-
-        when(mockPluginConfig.getBoolean("enabled", false))
-                .thenReturn(true);
-        when(mockPluginConfig.getString("webhookurl", ""))
-                .thenReturn("https://webook/");
-        when(mockPluginConfig.getString("channel", "general"))
-                .thenReturn("test-channel");
-        when(mockPluginConfig.getString("username", "gerrit"))
-                .thenReturn("test-user");
-        when(mockPluginConfig.getString("ignore", ""))
-                .thenReturn("^WIP.*");
-
-        config = new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+        PluginConfigFactory configFactory =
+        		TestToolbox.generatePluginConfigurationBasedOnProjectConfigFile(PROJECT_NAME);
+        config = new ProjectConfigFileBasedSnapshot(configFactory, PROJECT_NAME);
     }
 
     @Test

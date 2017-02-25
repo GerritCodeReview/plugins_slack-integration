@@ -17,8 +17,8 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.common.base.Suppliers;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -62,7 +62,7 @@ public class CommentAddedMessageGeneratorTest
     private AccountAttribute mockAccount = mock(AccountAttribute.class);
     private ChangeAttribute mockChange = mock(ChangeAttribute.class);
 
-    private ProjectConfig config;
+    private ProjectConfigFileBasedSnapshot config;
 
     @Before
     public void setup() throws Exception
@@ -75,7 +75,7 @@ public class CommentAddedMessageGeneratorTest
 
         // Setup mocks
         when(mockConfigFactory.getFromProjectConfigWithInheritance(
-                projectNameKey, ProjectConfig.CONFIG_NAME))
+                projectNameKey, ProjectConfigFileBasedSnapshot.CONFIG_NAME))
                 .thenReturn(mockPluginConfig);
 
         when(mockPluginConfig.getBoolean("enabled", false))
@@ -89,7 +89,7 @@ public class CommentAddedMessageGeneratorTest
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn("^WIP.*");
 
-        config = new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+        config = new ProjectConfigFileBasedSnapshot(mockConfigFactory, PROJECT_NAME);
     }
 
     @Test

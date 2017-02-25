@@ -17,7 +17,7 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.common.base.Ascii;
 import com.google.gerrit.server.events.CommentAddedEvent;
@@ -38,7 +38,7 @@ public class CommentAddedMessageGenerator extends MessageGenerator
     private static final Logger LOGGER =
             LoggerFactory.getLogger(CommentAddedMessageGenerator.class);
 
-    private ProjectConfig config;
+    private ProjectConfigFileBasedSnapshot config;
     private CommentAddedEvent event;
 
     /**
@@ -48,7 +48,7 @@ public class CommentAddedMessageGenerator extends MessageGenerator
      * @param event The CommentAddedEvent instance to generate a message for.
      */
     protected CommentAddedMessageGenerator(CommentAddedEvent event,
-                                           ProjectConfig config)
+                                           ProjectConfigFileBasedSnapshot config)
     {
         if (event == null)
         {

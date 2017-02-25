@@ -1,49 +1,56 @@
-/*
- * Copyright 2016 Cisco Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain
- * a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- *
- */
-
 package com.cisco.gerrit.plugins.slack;
 
-import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.PatchSetCreatedEvent;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.Assert.*;
+import static org.junit.Assert.*;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import com.cisco.gerrit.plugins.slack.config.*;
 
+import com.cisco.gerrit.plugins.slack.PublishEventListener;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.events.PatchSetEvent;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Project.NameKey.class})
 public class PublishEventListenerTest
 {
-    private PatchSetCreatedEvent mockPatchSetCreatedEvent =
-            mock(PatchSetCreatedEvent.class);
-    private ChangeMergedEvent mockChangeMergedEvent =
-            mock(ChangeMergedEvent.class);
+	@Test
+	public void generatesMessageWithConfigurationInProjectConfigFile() throws Exception
+	{
+		final String VALID_PROJECT_NAME = "my-first-project";
+		final String VALID_BRANCH_NAME = "master";
+		
+		PluginConfigFactory configFactory =
+				TestToolbox.generatePluginConfigurationBasedOnProjectConfigFile(VALID_PROJECT_NAME);
+		PatchSetEvent event =
+				TestToolbox.generateMinimalPatchSetEvent(VALID_PROJECT_NAME, VALID_BRANCH_NAME);
 
-    private PublishEventListener publishEventListener;
+		WebhookClientStub webhookClient = new WebhookClientStub();
+		PublishEventListener listener = new PublishEventListener(configFactory, webhookClient);
+		listener.onEvent(event);
+		
+		assertTrue(webhookClient.published);
+	}
+	
+	@Test
+	public void generatesMessageWithConfigurationInPluginConfigFile() throws Exception
+	{
+		final String VALID_PROJECT_NAME = "my-first-project";
+		final String VALID_BRANCH_NAME = "master";
+		
+		PluginConfigFactory configFactory =
+				TestToolbox.generatePluginConfigurationBasedOnPluginConfigFile(VALID_PROJECT_NAME, VALID_BRANCH_NAME);
+		PatchSetEvent event =
+				TestToolbox.generateMinimalPatchSetEvent(VALID_PROJECT_NAME, VALID_BRANCH_NAME);
 
-    @Before
-    public void setup() throws Exception
-    {
-        publishEventListener = new PublishEventListener();
-    }
-
-    @Test
-    public void handlesPatchSetCreatedEvents() throws Exception
-    {
-        // Wat? Placeholder, as I need to think about out how to test...
-        assertTrue(true);
-    }
+		WebhookClientStub webhookClient = new WebhookClientStub();
+		PublishEventListener listener = new PublishEventListener(configFactory, webhookClient);
+		listener.onEvent(event);
+		
+		assertTrue(webhookClient.published);
+	}	
 }

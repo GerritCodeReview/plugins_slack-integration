@@ -18,7 +18,7 @@
 package com.cisco.gerrit.plugins.slack;
 
 import com.cisco.gerrit.plugins.slack.client.WebhookClient;
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
 import com.cisco.gerrit.plugins.slack.message.MessageGenerator;
 import com.cisco.gerrit.plugins.slack.message.MessageGeneratorFactory;
 import com.google.gerrit.common.EventListener;
@@ -44,16 +44,29 @@ public class PublishEventListener implements EventListener
             LoggerFactory.getLogger(PublishEventListener.class);
 
     private static final String ALL_PROJECTS = "All-Projects";
-
-    @Inject
     private PluginConfigFactory configFactory;
+    private WebhookClient webhookClient;
+    
+    @Inject
+    public PublishEventListener(PluginConfigFactory configFactory)
+    {
+    	this.configFactory = configFactory;
+    	this.webhookClient = new WebhookClient();
+    }
+    
+    public PublishEventListener(PluginConfigFactory configFactory,
+    		WebhookClient webhookClient)
+    {
+    	this.configFactory = configFactory;
+    	this.webhookClient = webhookClient;
+    }    
 
     @Override
     public void onEvent(Event event)
     {
         try
         {
-            ProjectConfig config;
+            ProjectConfigFileBasedSnapshot config;
             MessageGenerator messageGenerator;
 
             if (event instanceof PatchSetCreatedEvent)
@@ -61,7 +74,7 @@ public class PublishEventListener implements EventListener
                 PatchSetCreatedEvent patchSetCreatedEvent;
                 patchSetCreatedEvent = (PatchSetCreatedEvent) event;
 
-                config = new ProjectConfig(configFactory,
+                config = new ProjectConfigFileBasedSnapshot(configFactory,
                         patchSetCreatedEvent.change.get().project);
 
                 messageGenerator = MessageGeneratorFactory.newInstance(
@@ -72,7 +85,7 @@ public class PublishEventListener implements EventListener
                 ChangeMergedEvent changeMergedEvent;
                 changeMergedEvent = (ChangeMergedEvent) event;
 
-                config = new ProjectConfig(configFactory,
+                config = new ProjectConfigFileBasedSnapshot(configFactory,
                         changeMergedEvent.change.get().project);
 
                 messageGenerator = MessageGeneratorFactory.newInstance(
@@ -83,7 +96,7 @@ public class PublishEventListener implements EventListener
                 CommentAddedEvent commentAddedEvent;
                 commentAddedEvent = (CommentAddedEvent) event;
 
-                config = new ProjectConfig(configFactory,
+                config = new ProjectConfigFileBasedSnapshot(configFactory,
                         commentAddedEvent.change.get().project);
 
                 messageGenerator = MessageGeneratorFactory.newInstance(
@@ -93,7 +106,7 @@ public class PublishEventListener implements EventListener
             {
                 LOGGER.debug("Event " + event + " not currently supported");
 
-                config = new ProjectConfig(configFactory, ALL_PROJECTS);
+                config = new ProjectConfigFileBasedSnapshot(configFactory, ALL_PROJECTS);
 
                 messageGenerator = MessageGeneratorFactory.newInstance(
                         event, config);
@@ -101,10 +114,7 @@ public class PublishEventListener implements EventListener
 
             if (messageGenerator.shouldPublish())
             {
-                WebhookClient client;
-                client = new WebhookClient();
-
-                client.publish(messageGenerator.generate(),
+                webhookClient.publish(messageGenerator.generate(),
                         config.getWebhookUrl());
             }
         }

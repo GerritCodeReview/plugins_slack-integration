@@ -10,19 +10,20 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 
-public class BranchBasedProjectConfig
+public class PluginConfigFileBasedSnapshot implements PluginConfigSnapshot
 {
-	   /**
+	/**
      * The class logger instance.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(
-            ProjectConfig.class);
+            ProjectConfigFileBasedSnapshot.class);
 
     /**
      * The name of the plugin config section to lookup within the gerrit.config
      * file.
      */
 	public static final String PLUGIN_NAME = "slack-integration";
+	public static final String BRANCH_SECTION_CONFIG_NAME = "branch";
 
     private boolean enabled = false;
     private String webhookUrl = null;
@@ -31,13 +32,13 @@ public class BranchBasedProjectConfig
     private String ignore = null;
 
     /**
-     * Creates a new instance of the ProjectConfig class for the given project.
+     * Creates a new instance of the BranchBasedProjectConfig class for the given project.
      *
      * @param configFactory The Gerrit PluginConfigFactory instance to use.
      * @param gerritProjectName The project to use when looking up a configuration.
      * @param gitBranch The name of the git branch for which the configuration shall be provided.
      */
-    public BranchBasedProjectConfig(PluginConfigFactory configFactory,
+    public PluginConfigFileBasedSnapshot(PluginConfigFactory configFactory,
     		String gerritProjectName,
     		String gitBranch)
     {
@@ -46,12 +47,13 @@ public class BranchBasedProjectConfig
 
         try
         {
-        	final String BRANCH_SECTION_NAME = "branch"; 
+        	final String BRANCH_SECTION_NAME = "branch";
+        	
+        	// Returns empty configuration object, if <plugin-name>.config does not exist
         	Config pluginConfig = configFactory.getProjectPluginConfig(
             		gerritProjectKey, PLUGIN_NAME);
         	
-            Set<String> subsections = configFactory.getProjectPluginConfig(
-            		gerritProjectKey, PLUGIN_NAME).getSubsections(BRANCH_SECTION_NAME);
+            Set<String> subsections = pluginConfig.getSubsections(BRANCH_SECTION_NAME);
             
             if (subsections.contains(gitBranch))
             {
@@ -95,7 +97,7 @@ public class BranchBasedProjectConfig
         return username;
     }
 
-    public String getIgnore()
+    public String getIgnorePattern()
     {
         return ignore;
     }

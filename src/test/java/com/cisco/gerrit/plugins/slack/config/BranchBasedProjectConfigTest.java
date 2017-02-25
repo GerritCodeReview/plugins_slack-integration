@@ -27,7 +27,6 @@ public class BranchBasedProjectConfigTest
 {
 	final private String SOME_GERRIT_PROJECT_NAME = "my-first-project";
 	final private String BRANCH_SECTION = "branch";
-	final String VALID_BRANCH_NAME = "refs/heads/master";
 
 	// Project configuration as it would be in slack-integration.config
 	//
@@ -47,21 +46,19 @@ public class BranchBasedProjectConfigTest
 	//	user = mightygerrit
 	//	ignore = ".*"
 	
-	Set<String> generateTwoBranchNames()
+	Set<String> generateBranchName()
 	{
-		final String FIRST_SUBSECTION = "refs/heads/master";
-		//final String SECOND_SUBSECTION = "refs/heads/maintenance";
-		
-		return Sets.newHashSet(FIRST_SUBSECTION);//, SECOND_SUBSECTION);
+		final String BRANCH_NAME = "refs/heads/master";
+		return Sets.newHashSet(BRANCH_NAME);
 	}
 	
-	public PluginConfigFactory generateConfigurationContainingOneBranchSection(String gerritProject, String branchName) throws NoSuchProjectException
+	public PluginConfigFactory generateConfigurationContainingOneBranchSection(String projectName, String branchName) throws Exception
 	{
-		PluginConfigFactory pluginConfigFactory = mock(PluginConfigFactory.class);
+		/*PluginConfigFactory pluginConfigFactory = mock(PluginConfigFactory.class);
 
 		Config pluginConfig = mock(Config.class);
 		when(pluginConfig.getSubsections(BRANCH_SECTION))
-			.thenReturn(generateTwoBranchNames());
+			.thenReturn(generateBranchName());
 		when(pluginConfig.getBoolean(BRANCH_SECTION, branchName, "enabled", false))
         	.thenReturn(true);
 		when(pluginConfig.getString(BRANCH_SECTION, branchName, "webhookurl"))
@@ -81,76 +78,80 @@ public class BranchBasedProjectConfigTest
 				gerritProjectKey, BranchBasedProjectConfig.PLUGIN_NAME))
 			.thenReturn(pluginConfig);
 		
-		return pluginConfigFactory;
+		return pluginConfigFactory;*/
+		return TestToolbox.generatePluginConfigurationBasedOnPluginConfigFile(projectName, branchName);
 	}
 	
 	@Test
-	public void enabledStateIsReturnedFromPluginConfig() throws NoSuchProjectException
+	public void enabledStateIsReturnedFromPluginConfig() throws Exception
 	{
 		final String VALID_BRANCH_NAME = "refs/heads/master";
 		PluginConfigFactory configurationFactory =
 				generateConfigurationContainingOneBranchSection(SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 		
-		BranchBasedProjectConfig projectConfiguration =
-				new BranchBasedProjectConfig(
-						configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
+		PluginConfigFileBasedSnapshot projectConfiguration =
+				new PluginConfigFileBasedSnapshot(configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 
 		assertTrue(projectConfiguration.isEnabled());
 	}
 	
 	@Test
-	public void webhookUrlIsReturnedFromPluginConfig() throws NoSuchProjectException
+	public void webhookUrlIsReturnedFromPluginConfig() throws Exception
 	{
-		
+		final String VALID_BRANCH_NAME = "refs/heads/master";
 		PluginConfigFactory configurationFactory =
 				generateConfigurationContainingOneBranchSection(SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 		
-		BranchBasedProjectConfig projectConfiguration =
-				new BranchBasedProjectConfig(
-						configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
+		PluginConfigFileBasedSnapshot projectConfiguration =
+				new PluginConfigFileBasedSnapshot(configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 
 		assertThat(projectConfiguration.getWebhookUrl(), is("https://<web-hook-url>"));
 	}	
 	
 	@Test
-	public void channelIsReturnedFromPluginConfig() throws NoSuchProjectException
+	public void channelIsReturnedFromPluginConfig() throws Exception
 	{
 		final String VALID_BRANCH_NAME = "refs/heads/master";
 		PluginConfigFactory configurationFactory =
 				generateConfigurationContainingOneBranchSection(SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 		
-		BranchBasedProjectConfig projectConfiguration =
-				new BranchBasedProjectConfig(
-						configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
+		PluginConfigFileBasedSnapshot projectConfiguration =
+				new PluginConfigFileBasedSnapshot(configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 
-		assertEquals("gerrit", projectConfiguration.getUsername());
+		assertThat(projectConfiguration.getUsername(), is("gerrit"));
 	}
 	
 	@Test
-	public void gerritIsReturnedFromPluginConfig() throws NoSuchProjectException
+	public void gerritIsReturnedFromPluginConfig() throws Exception
 	{
 		final String VALID_BRANCH_NAME = "refs/heads/master";
 		PluginConfigFactory configurationFactory =
 				generateConfigurationContainingOneBranchSection(SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 		
-		BranchBasedProjectConfig projectConfiguration =
-				new BranchBasedProjectConfig(
-						configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
+		PluginConfigFileBasedSnapshot projectConfiguration =
+				new PluginConfigFileBasedSnapshot(configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 
-		assertEquals("gerrit", projectConfiguration.getUsername());
+		assertThat(projectConfiguration.getUsername(), is("gerrit"));
 	}
 	
 	@Test
-	public void ignoreIsReturnedFromPluginConfig() throws NoSuchProjectException
+	public void ignoreIsReturnedFromPluginConfig() throws Exception
 	{
 		final String VALID_BRANCH_NAME = "refs/heads/master";
 		PluginConfigFactory configurationFactory =
 				generateConfigurationContainingOneBranchSection(SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 		
-		BranchBasedProjectConfig projectConfiguration =
-				new BranchBasedProjectConfig(
-						configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
+		PluginConfigFileBasedSnapshot projectConfiguration =
+				new PluginConfigFileBasedSnapshot(configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
 
-		assertEquals("^WIP.*", projectConfiguration.getIgnore());
-	}	
+		assertThat(projectConfiguration.getIgnorePattern(), is("^WIP.*"));
+	}
+	
+	@Test
+	public void test2()
+	{
+	//	BranchBasedProjectConfig projectConfiguration =
+		//		new BranchBasedProjectConfig(configurationFactory, SOME_GERRIT_PROJECT_NAME, VALID_BRANCH_NAME);
+
+	}
 }

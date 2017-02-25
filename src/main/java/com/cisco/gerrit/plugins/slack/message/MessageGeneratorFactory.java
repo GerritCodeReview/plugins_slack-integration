@@ -17,7 +17,7 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.Event;
@@ -43,7 +43,7 @@ public class MessageGeneratorFactory
      * a PatchSetCreatedEvent.
      */
     public static MessageGenerator newInstance(PatchSetCreatedEvent event,
-            ProjectConfig config)
+            ProjectConfigFileBasedSnapshot config)
     {
         PatchSetCreatedMessageGenerator messageGenerator;
         messageGenerator = new PatchSetCreatedMessageGenerator(event, config);
@@ -61,7 +61,7 @@ public class MessageGeneratorFactory
      * a ChangeMergedEvent.
      */
     public static MessageGenerator newInstance(ChangeMergedEvent event,
-            ProjectConfig config)
+            ProjectConfigFileBasedSnapshot config)
     {
         ChangeMergedMessageGenerator messageGenerator;
         messageGenerator = new ChangeMergedMessageGenerator(event, config);
@@ -79,7 +79,7 @@ public class MessageGeneratorFactory
      * a CommendAddedEvent.
      */
     public static MessageGenerator newInstance(CommentAddedEvent event,
-                                               ProjectConfig config)
+                                               ProjectConfigFileBasedSnapshot config)
     {
         CommentAddedMessageGenerator messageGenerator;
         messageGenerator = new CommentAddedMessageGenerator(event, config);
@@ -98,7 +98,7 @@ public class MessageGeneratorFactory
      * an unsupported Event.
      */
     public static MessageGenerator newInstance(Event event,
-            ProjectConfig config)
+            ProjectConfigFileBasedSnapshot config)
     {
         UnsupportedMessageGenerator messageGenerator;
         messageGenerator = new UnsupportedMessageGenerator(event, config);
