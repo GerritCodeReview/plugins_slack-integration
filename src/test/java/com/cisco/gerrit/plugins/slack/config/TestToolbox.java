@@ -41,10 +41,10 @@ public class TestToolbox
         
         // Setup mocks
         when(pluginConfigFactory.getFromProjectConfigWithInheritance(
-        		projectKey, ProjectConfigFileBasedSnapshot.CONFIG_NAME))
+        		projectKey, ProjectConfigFileSnapshot.CONFIG_NAME))
                 .thenReturn(pluginConfig);
         when(pluginConfigFactory.getProjectPluginConfig(
-        		projectKey, ProjectConfigFileBasedSnapshot.CONFIG_NAME))
+        		projectKey, ProjectConfigFileSnapshot.CONFIG_NAME))
         		.thenReturn(new Config());
         
         when(pluginConfig.getBoolean("enabled", false))
@@ -80,28 +80,28 @@ public class TestToolbox
 		Set<String> subsections = Sets.newSet(branchName);
 		Config pluginConfig = mock(Config.class);
 		when(pluginConfig.getSubsections(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME))
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME))
 			.thenReturn(subsections);
 
 		when(pluginConfig.getBoolean(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "enabled", false))
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "enabled", false))
 	    	.thenReturn(true);
 		when(pluginConfig.getString(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "webhookurl"))
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "webhookurl"))
 		    .thenReturn("https://<web-hook-url>");
 		when(pluginConfig.getString(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "channel"))
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "channel"))
 		    .thenReturn("development");
 		when(pluginConfig.getString(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "username"))
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "username"))
 	    	.thenReturn("gerrit");
 		when(pluginConfig.getString(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "ignore"))
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME, branchName, "ignore"))
 			.thenReturn("^WIP.*");		
 		
 		PluginConfigFactory configFactory = mock(PluginConfigFactory.class);
 		when(configFactory.getProjectPluginConfig(
-				projectKey, ProjectConfigFileBasedSnapshot.CONFIG_NAME))
+				projectKey, ProjectConfigFileSnapshot.CONFIG_NAME))
 			.thenReturn(pluginConfig);
 
 		return configFactory;

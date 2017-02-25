@@ -17,7 +17,8 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileSnapshot;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class PatchSetCreatedMessageGenerator extends MessageGenerator
             LoggerFactory.getLogger(PatchSetCreatedMessageGenerator.class);
 
     private PatchSetCreatedEvent event;
-    private ProjectConfigFileBasedSnapshot config;
+    private PluginConfigSnapshot config;
 
     /**
      * Creates a new PatchSetCreatedMessageGenerator instance using the
@@ -48,7 +49,7 @@ public class PatchSetCreatedMessageGenerator extends MessageGenerator
      *              message for.
      */
     protected PatchSetCreatedMessageGenerator(PatchSetCreatedEvent event,
-            ProjectConfigFileBasedSnapshot config)
+            PluginConfigSnapshot config)
     {
         if (event == null)
         {

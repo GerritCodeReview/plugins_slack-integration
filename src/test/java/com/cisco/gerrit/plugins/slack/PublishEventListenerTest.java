@@ -1,6 +1,5 @@
 package com.cisco.gerrit.plugins.slack;
 
-import org.junit.Assert.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 import org.junit.runner.RunWith;

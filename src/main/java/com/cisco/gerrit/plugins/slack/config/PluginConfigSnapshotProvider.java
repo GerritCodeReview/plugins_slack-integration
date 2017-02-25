@@ -17,17 +17,17 @@ public class PluginConfigSnapshotProvider
 		
 		Project.NameKey projectKey = Project.NameKey.parse(projectName);
 		Config pluginConfig =
-				configFactory.getProjectPluginConfig(projectKey, ProjectConfigFileBasedSnapshot.CONFIG_NAME);
+				configFactory.getProjectPluginConfig(projectKey, ProjectConfigFileSnapshot.CONFIG_NAME);
 		
 		Set<String> subsections = pluginConfig.getSubsections(
-				PluginConfigFileBasedSnapshot.BRANCH_SECTION_CONFIG_NAME);
+				PluginConfigFileSnapshot.BRANCH_SECTION_CONFIG_NAME);
 		if (!subsections.isEmpty())
 		{
-			pluginConfigSnapshot = new PluginConfigFileBasedSnapshot(configFactory, projectName, branchName);
+			pluginConfigSnapshot = new PluginConfigFileSnapshot(configFactory, projectName, branchName);
 		}
 		else
 		{
-			pluginConfigSnapshot = new ProjectConfigFileBasedSnapshot(configFactory, projectName);
+			pluginConfigSnapshot = new ProjectConfigFileSnapshot(configFactory, projectName);
 		}
 		return pluginConfigSnapshot; 
 	}

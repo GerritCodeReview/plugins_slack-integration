@@ -18,16 +18,15 @@
 package com.cisco.gerrit.plugins.slack;
 
 import com.cisco.gerrit.plugins.slack.client.WebhookClient;
-import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshotProvider;
 import com.cisco.gerrit.plugins.slack.message.MessageGenerator;
 import com.cisco.gerrit.plugins.slack.message.MessageGeneratorFactory;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.server.config.PluginConfigFactory;
-import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.Event;
-import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.PatchSetEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
@@ -43,7 +42,6 @@ public class PublishEventListener implements EventListener
     private static final Logger LOGGER =
             LoggerFactory.getLogger(PublishEventListener.class);
 
-    private static final String ALL_PROJECTS = "All-Projects";
     private PluginConfigFactory configFactory;
     private WebhookClient webhookClient;
     
@@ -66,57 +64,25 @@ public class PublishEventListener implements EventListener
     {
         try
         {
-            ProjectConfigFileBasedSnapshot config;
-            MessageGenerator messageGenerator;
+        	if (event instanceof PatchSetEvent)
+        	{
+            	PatchSetEvent patchSetEvent = (PatchSetEvent) event;
+            	
+	            PluginConfigSnapshot pluginConfig = 
+	            		PluginConfigSnapshotProvider.createSnapshot(
+	            				configFactory,
+	            				patchSetEvent.change.get().project,
+	            				patchSetEvent.change.get().branch);
+	
+	            MessageGenerator messageGenerator =
+	            		MessageGeneratorFactory.newInstance(patchSetEvent, pluginConfig);
 
-            if (event instanceof PatchSetCreatedEvent)
-            {
-                PatchSetCreatedEvent patchSetCreatedEvent;
-                patchSetCreatedEvent = (PatchSetCreatedEvent) event;
-
-                config = new ProjectConfigFileBasedSnapshot(configFactory,
-                        patchSetCreatedEvent.change.get().project);
-
-                messageGenerator = MessageGeneratorFactory.newInstance(
-                        patchSetCreatedEvent, config);
-            }
-            else if (event instanceof ChangeMergedEvent)
-            {
-                ChangeMergedEvent changeMergedEvent;
-                changeMergedEvent = (ChangeMergedEvent) event;
-
-                config = new ProjectConfigFileBasedSnapshot(configFactory,
-                        changeMergedEvent.change.get().project);
-
-                messageGenerator = MessageGeneratorFactory.newInstance(
-                        changeMergedEvent, config);
-            }
-            else if (event instanceof CommentAddedEvent)
-            {
-                CommentAddedEvent commentAddedEvent;
-                commentAddedEvent = (CommentAddedEvent) event;
-
-                config = new ProjectConfigFileBasedSnapshot(configFactory,
-                        commentAddedEvent.change.get().project);
-
-                messageGenerator = MessageGeneratorFactory.newInstance(
-                        commentAddedEvent, config);
-            }
-            else
-            {
-                LOGGER.debug("Event " + event + " not currently supported");
-
-                config = new ProjectConfigFileBasedSnapshot(configFactory, ALL_PROJECTS);
-
-                messageGenerator = MessageGeneratorFactory.newInstance(
-                        event, config);
-            }
-
-            if (messageGenerator.shouldPublish())
-            {
-                webhookClient.publish(messageGenerator.generate(),
-                        config.getWebhookUrl());
-            }
+	            if (messageGenerator.shouldPublish())
+	            {
+	                webhookClient.publish(messageGenerator.generate(),
+	                		pluginConfig.getWebhookUrl());
+	            }
+        	}
         }
         catch (Throwable e)
         {

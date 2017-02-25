@@ -28,13 +28,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matthew Montgomery
  */
-public class ProjectConfigFileBasedSnapshot implements PluginConfigSnapshot
+public class ProjectConfigFileSnapshot implements PluginConfigSnapshot
 {
     /**
      * The class logger instance.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(
-            ProjectConfigFileBasedSnapshot.class);
+            ProjectConfigFileSnapshot.class);
 
     /**
      * The name of the plugin config section to lookup within the gerrit.config
@@ -56,7 +56,7 @@ public class ProjectConfigFileBasedSnapshot implements PluginConfigSnapshot
      * @param configFactory The Gerrit PluginConfigFactory instance to use.
      * @param project The project to use when looking up a configuration.
      */
-    public ProjectConfigFileBasedSnapshot(PluginConfigFactory configFactory, String project)
+    public ProjectConfigFileSnapshot(PluginConfigFactory configFactory, String project)
     {
         enabled = false;
 

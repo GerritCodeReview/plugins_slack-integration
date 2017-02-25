@@ -25,7 +25,7 @@ public class PluginConfigSnapshotProviderTest
 		PluginConfigSnapshot pluginConfig =
 				PluginConfigSnapshotProvider.createSnapshot(
 						configFactory, VALID_PROJECT, SOME_BRANCH);
-		assertNotNull((ProjectConfigFileBasedSnapshot) pluginConfig);
+		assertNotNull((ProjectConfigFileSnapshot) pluginConfig);
 	}
 	
 	@Test
@@ -41,6 +41,6 @@ public class PluginConfigSnapshotProviderTest
 				PluginConfigSnapshotProvider.createSnapshot(
 						configFactory, VALID_PROJECT_NAME, VALID_BRANCH_NAME);
 		
-		assertNotNull((PluginConfigFileBasedSnapshot)pluginConfig);
+		assertNotNull((PluginConfigFileSnapshot)pluginConfig);
 	}
 }

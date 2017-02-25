@@ -17,7 +17,8 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileBasedSnapshot;
+import com.cisco.gerrit.plugins.slack.config.PluginConfigSnapshot;
+import com.cisco.gerrit.plugins.slack.config.ProjectConfigFileSnapshot;
 import com.google.gerrit.server.events.Event;
 
 /**
@@ -29,11 +30,11 @@ import com.google.gerrit.server.events.Event;
  */
 public class UnsupportedMessageGenerator extends MessageGenerator
 {
-    private ProjectConfigFileBasedSnapshot config;
+    private PluginConfigSnapshot config;
     private Event event;
 
     protected UnsupportedMessageGenerator(Event event,
-            ProjectConfigFileBasedSnapshot config)
+            PluginConfigSnapshot config)
     {
         if (event == null)
         {

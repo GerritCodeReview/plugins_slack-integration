@@ -10,13 +10,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 
-public class PluginConfigFileBasedSnapshot implements PluginConfigSnapshot
+public class PluginConfigFileSnapshot implements PluginConfigSnapshot
 {
 	/**
      * The class logger instance.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(
-            ProjectConfigFileBasedSnapshot.class);
+            ProjectConfigFileSnapshot.class);
 
     /**
      * The name of the plugin config section to lookup within the gerrit.config
@@ -38,7 +38,7 @@ public class PluginConfigFileBasedSnapshot implements PluginConfigSnapshot
      * @param gerritProjectName The project to use when looking up a configuration.
      * @param gitBranch The name of the git branch for which the configuration shall be provided.
      */
-    public PluginConfigFileBasedSnapshot(PluginConfigFactory configFactory,
+    public PluginConfigFileSnapshot(PluginConfigFactory configFactory,
     		String gerritProjectName,
     		String gitBranch)
     {

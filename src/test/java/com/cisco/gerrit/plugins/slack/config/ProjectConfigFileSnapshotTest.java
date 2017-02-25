@@ -18,12 +18,10 @@
 package com.cisco.gerrit.plugins.slack.config;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -31,35 +29,24 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Tests for the PluginConfig class.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Project.NameKey.class})
-public class ProjectConfigTest
+public class ProjectConfigFileSnapshotTest
 {
     private static final String PROJECT_NAME = "test-project";
 
-    private Project.NameKey mockNameKey =
-            mock(Project.NameKey.class);
-
-    private PluginConfigFactory mockConfigFactory =
-            mock(PluginConfigFactory.class);
-
-    private PluginConfig mockPluginConfig =
-            mock(PluginConfig.class);
-
-    private ProjectConfigFileBasedSnapshot config;
+    private ProjectConfigFileSnapshot config;
 
     @Before
     public void setup() throws Exception
     {
         PluginConfigFactory configFactory =
         		TestToolbox.generatePluginConfigurationBasedOnProjectConfigFile(PROJECT_NAME);
-        config = new ProjectConfigFileBasedSnapshot(configFactory, PROJECT_NAME);
+        config = new ProjectConfigFileSnapshot(configFactory, PROJECT_NAME);
     }
 
     @Test
