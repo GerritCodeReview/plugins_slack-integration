@@ -51,6 +51,7 @@ public class ProjectConfig
     private boolean publishOnChangeMerged;
     private boolean publishOnCommentAdded;
     private boolean publishOnReviewerAdded;
+    private boolean ignoreUnchangedPatchSet;
 
     /**
      * Creates a new instance of the ProjectConfig class for the given project.
@@ -86,6 +87,11 @@ public class ProjectConfig
             ignore = configFactory.getFromProjectConfigWithInheritance(
                     projectNameKey, CONFIG_NAME).getString(
                     "ignore", "");
+
+            ignoreUnchangedPatchSet =
+                configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "ignore-unchanged-patch-set", true);
 
             publishOnPatchSetCreated =
                 configFactory.getFromProjectConfigWithInheritance(
@@ -137,6 +143,11 @@ public class ProjectConfig
     public String getIgnore()
     {
         return ignore;
+    }
+
+    public boolean getIgnoreUnchangedPatchSet()
+    {
+        return ignoreUnchangedPatchSet;
     }
 
     public boolean shouldPublishOnPatchSetCreated()
