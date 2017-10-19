@@ -51,6 +51,7 @@ public class ProjectConfig
     private boolean publishOnChangeMerged;
     private boolean publishOnCommentAdded;
     private boolean publishOnReviewerAdded;
+    private boolean ignoreRebaseEmptyPatchSet;
 
     /**
      * Creates a new instance of the ProjectConfig class for the given project.
@@ -106,6 +107,10 @@ public class ProjectConfig
                 configFactory.getFromProjectConfigWithInheritance(
                     projectNameKey, CONFIG_NAME).getBoolean(
                     "publish-on-reviewer-added", true);
+
+            ignoreRebaseEmptyPatchSet = configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "ignore-rebase-empty-patch-set", true);
         }
         catch (NoSuchProjectException e)
         {
@@ -157,5 +162,10 @@ public class ProjectConfig
     public boolean shouldPublishOnReviewerAdded()
     {
         return publishOnReviewerAdded;
+    }
+
+    public boolean getIgnoreRebaseEmptyPatchSet()
+    {
+        return ignoreRebaseEmptyPatchSet;
     }
 }
