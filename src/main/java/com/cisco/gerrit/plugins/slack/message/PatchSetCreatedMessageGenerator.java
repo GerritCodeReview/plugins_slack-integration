@@ -18,6 +18,8 @@
 package com.cisco.gerrit.plugins.slack.message;
 
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
+import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +68,28 @@ public class PatchSetCreatedMessageGenerator implements MessageGenerator
         if (!config.isEnabled() || !config.shouldPublishOnPatchSetCreated())
         {
             return false;
+        }
+
+        // Ignore rebases or no code changes
+        try
+        {
+            PatchSetAttribute patchSet;
+            patchSet = event.patchSet.get();
+            if (config.getIgnoreRebaseEmptyPatchSet() &&
+                (
+                    patchSet.kind == ChangeKind.TRIVIAL_REBASE ||
+                    patchSet.kind == ChangeKind.MERGE_FIRST_PARENT_UPDATE ||
+                    patchSet.kind == ChangeKind.NO_CODE_CHANGE ||
+                    patchSet.kind == ChangeKind.NO_CHANGE
+                )
+            )
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            LOGGER.warn("Error checking patch set kind", e);
         }
 
         boolean result;
