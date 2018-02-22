@@ -24,7 +24,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
-import com.google.gerrit.server.events.ReviewerAddedEvent;
+import com.google.gerrit.server.events.WorkInProgressStateChangedEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,13 +39,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for the ReviewerAddedMessageGeneratorTest class. The expected behavior
- * is that the ReviewerAddedMessageGeneratorTest should publish if both the plugin
- * and publish-on-reviewer-added are enabled.
+ * Tests for the WorkInProgressStateChangedGenerator class. The expected behavior
+ * is that the WorkInProgressStateChangedGenerator should publish when the state
+ * changes.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Project.NameKey.class})
-public class ReviewerAddedMessageGeneratorTest
+public class WorkInProgressStateChangedGeneratorTest
 {
     private static final String PROJECT_NAME = "test-project";
 
@@ -58,7 +58,7 @@ public class ReviewerAddedMessageGeneratorTest
     private PluginConfig mockPluginConfig =
             mock(PluginConfig.class);
 
-    private ReviewerAddedEvent mockEvent = mock(ReviewerAddedEvent.class);
+    private WorkInProgressStateChangedEvent mockEvent = mock(WorkInProgressStateChangedEvent.class);
     private AccountAttribute mockAccount = mock(AccountAttribute.class);
     private ChangeAttribute mockChange = mock(ChangeAttribute.class);
 
@@ -69,10 +69,7 @@ public class ReviewerAddedMessageGeneratorTest
         when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
     }
 
-    private ProjectConfig getConfig(
-        boolean publishOnReviewerAdded,
-        boolean ignoreWipPrivate)
-        throws Exception
+    private ProjectConfig getConfig(boolean publishOnWipReady) throws Exception
     {
         Project.NameKey projectNameKey;
         projectNameKey = Project.NameKey.parse(PROJECT_NAME);
@@ -92,22 +89,17 @@ public class ReviewerAddedMessageGeneratorTest
                 .thenReturn("testuser");
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn("^WIP.*");
-        when(mockPluginConfig.getBoolean("publish-on-reviewer-added", true))
-                .thenReturn(publishOnReviewerAdded);
-        when(mockPluginConfig.getBoolean("ignore-wip-private", true))
-                .thenReturn(ignoreWipPrivate);
+        when(mockPluginConfig.getBoolean("publish-on-patch-set-created", true))
+                .thenReturn(true);
+        when(mockPluginConfig.getBoolean("publish-on-wip-ready", true))
+                .thenReturn(publishOnWipReady);
 
         return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
     }
 
     private ProjectConfig getConfig() throws Exception
     {
-        return getConfig(true /* publishOnReviewerAdded */, true /* ignoreWipPrivate */);
-    }
-
-    private ProjectConfig getConfig(boolean publishOnReviewerAdded) throws Exception
-    {
-        return getConfig(publishOnReviewerAdded, true /* ignoreWipPrivate */);
+        return getConfig(true /* publishOnWipReady */);
     }
 
     @Test
@@ -118,7 +110,7 @@ public class ReviewerAddedMessageGeneratorTest
         messageGenerator = MessageGeneratorFactory.newInstance(
                 mockEvent, config);
 
-        assertThat(messageGenerator instanceof ReviewerAddedMessageGenerator,
+        assertThat(messageGenerator instanceof WorkInProgressStateChangedGenerator,
                 is(true));
     }
 
@@ -127,6 +119,7 @@ public class ReviewerAddedMessageGeneratorTest
     {
         // Setup mocks
         ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
 
         // Test
         MessageGenerator messageGenerator;
@@ -140,7 +133,7 @@ public class ReviewerAddedMessageGeneratorTest
     public void doesNotPublishWhenTurnedOff() throws Exception
     {
         // Setup mocks
-        ProjectConfig config = getConfig(false /* publishOnReviewerAdded */);
+        ProjectConfig config = getConfig(false /* publishOnWipReady */);
 
         // Test
         MessageGenerator messageGenerator;
@@ -148,21 +141,6 @@ public class ReviewerAddedMessageGeneratorTest
                 mockEvent, config);
 
         assertThat(messageGenerator.shouldPublish(), is(false));
-    }
-
-    @Test
-    public void handlesInvalidIgnorePatterns() throws Exception
-    {
-        ProjectConfig config = getConfig();
-        when(mockPluginConfig.getString("ignore", ""))
-                .thenReturn(null);
-
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
-
-        assertThat(messageGenerator.shouldPublish(), is(true));
     }
 
     @Test
@@ -182,68 +160,18 @@ public class ReviewerAddedMessageGeneratorTest
     }
 
     @Test
-    public void doesNotPublishWhenPrivate() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig();
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockChange.isPrivate = true;
-
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
-
-        assertThat(messageGenerator.shouldPublish(), is(false));
-    }
-
-    @Test
-    public void publishesWhenWorkInProgress() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig(true /* publishOnReviewerAdded */,
-            false /* ignoreWipPrivate */);
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockChange.wip = true;
-
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
-
-        assertThat(messageGenerator.shouldPublish(), is(true));
-    }
-
-    @Test
-    public void publishesWhenPrivate() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig(true /* publishOnReviewerAdded */,
-            false /* ignoreWipPrivate */);
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockChange.isPrivate = true;
-
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
-
-        assertThat(messageGenerator.shouldPublish(), is(true));
-    }
-
-    @Test
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
         ProjectConfig config = getConfig();
+        mockEvent.changer = Suppliers.ofInstance(mockAccount);
         mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockEvent.reviewer = Suppliers.ofInstance(mockAccount);
 
         mockChange.number = 1234;
         mockChange.project = "testproject";
         mockChange.branch = "master";
-        mockChange.commitMessage = "This is the title\nThis is the message body.";
         mockChange.url = "https://change/";
+        mockChange.commitMessage = "This is the title\nThis is the message body.";
 
         mockAccount.name = "Unit Tester";
 
@@ -257,8 +185,8 @@ public class ReviewerAddedMessageGeneratorTest
                 "  \"channel\": \"#testchannel\",\n" +
                 "  \"attachments\": [\n" +
                 "    {\n" +
-                "      \"fallback\": \"Unit Tester was added to review testproject (master) https://change/: This is the title\",\n" +
-                "      \"pretext\": \"Unit Tester was added to review <https://change/|testproject (master) change 1234>\",\n" +
+                "      \"fallback\": \"Unit Tester proposed testproject (master) https://change/: This is the title\",\n" +
+                "      \"pretext\": \"Unit Tester proposed <https://change/|testproject (master) change 1234>\",\n" +
                 "      \"title\": \"This is the title\",\n" +
                 "      \"title_link\": \"https://change/\",\n" +
                 "      \"text\": \"\",\n" +

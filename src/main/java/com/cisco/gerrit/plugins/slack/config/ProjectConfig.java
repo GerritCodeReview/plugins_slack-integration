@@ -52,6 +52,9 @@ public class ProjectConfig
     private boolean publishOnCommentAdded;
     private boolean publishOnReviewerAdded;
     private boolean ignoreRebaseEmptyPatchSet;
+    private boolean ignoreWipPrivate;
+    private boolean publishOnWipReady;
+    private boolean publishOnPrivateToPublic;
 
     /**
      * Creates a new instance of the ProjectConfig class for the given project.
@@ -111,6 +114,20 @@ public class ProjectConfig
             ignoreRebaseEmptyPatchSet = configFactory.getFromProjectConfigWithInheritance(
                     projectNameKey, CONFIG_NAME).getBoolean(
                     "ignore-rebase-empty-patch-set", true);
+
+            ignoreWipPrivate = configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "ignore-wip-private", true);
+
+            publishOnWipReady =
+                configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "publish-on-wip-ready", publishOnPatchSetCreated);
+
+            publishOnPrivateToPublic =
+                configFactory.getFromProjectConfigWithInheritance(
+                    projectNameKey, CONFIG_NAME).getBoolean(
+                    "publish-on-private-to-public", publishOnPatchSetCreated);
         }
         catch (NoSuchProjectException e)
         {
@@ -167,5 +184,20 @@ public class ProjectConfig
     public boolean getIgnoreRebaseEmptyPatchSet()
     {
         return ignoreRebaseEmptyPatchSet;
+    }
+
+    public boolean getIgnoreWipPrivate()
+    {
+        return ignoreWipPrivate;
+    }
+
+    public boolean shouldPublishOnWipReady()
+    {
+        return publishOnWipReady;
+    }
+
+    public boolean shouldPublishOnPrivateToPublic()
+    {
+        return publishOnPrivateToPublic;
     }
 }
