@@ -70,7 +70,10 @@ public class CommentAddedMessageGeneratorTest
         when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
     }
 
-    private ProjectConfig getConfig(boolean publishOnCommentAdded) throws Exception
+    private ProjectConfig getConfig(
+        boolean publishOnCommentAdded,
+        boolean ignoreWipPrivate)
+        throws Exception
     {
         Project.NameKey projectNameKey;
         projectNameKey = Project.NameKey.parse(PROJECT_NAME);
@@ -92,13 +95,20 @@ public class CommentAddedMessageGeneratorTest
                 .thenReturn("^WIP.*");
         when(mockPluginConfig.getBoolean("publish-on-comment-added", true))
                 .thenReturn(publishOnCommentAdded);
+        when(mockPluginConfig.getBoolean("ignore-wip-private", true))
+                .thenReturn(ignoreWipPrivate);
 
         return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
     }
 
     private ProjectConfig getConfig() throws Exception
     {
-        return getConfig(true /* publishOnCommentAdded */);
+        return getConfig(true /* publishOnCommentAdded */, true /* ignoreWipPrivate */);
+    }
+
+    private ProjectConfig getConfig(boolean publishOnCommentAdded) throws Exception
+    {
+        return getConfig(publishOnCommentAdded, true /* ignoreWipPrivate */);
     }
 
     @Test
@@ -164,6 +174,76 @@ public class CommentAddedMessageGeneratorTest
         ProjectConfig config = getConfig();
         when(mockPluginConfig.getString("ignore", ""))
                 .thenReturn(null);
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(true));
+    }
+
+    @Test
+    public void doesNotPublishWhenWorkInProgress() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = false;
+        mockChange.wip = true;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(false));
+    }
+
+    @Test
+    public void doesNotPublishWhenPrivate() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = true;
+        mockChange.wip = false;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(false));
+    }
+
+    @Test
+    public void publishesWhenWorkInProgress() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig(true /* publishOnCommentAdded */,
+            false /* ignoreWipPrivate */);
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = false;
+        mockChange.wip = true;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(true));
+    }
+
+    @Test
+    public void publishesWhenPrivate() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig(true /* publishOnCommentAdded */,
+            false /* ignoreWipPrivate */);
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = true;
+        mockChange.wip = false;
 
         // Test
         MessageGenerator messageGenerator;

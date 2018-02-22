@@ -92,6 +92,20 @@ public class PatchSetCreatedMessageGenerator implements MessageGenerator
             LOGGER.warn("Error checking patch set kind", e);
         }
 
+        try
+        {
+            if (config.getIgnoreWipPrivate() &&
+                (event.change.get().isPrivate || event.change.get().wip)
+            )
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            LOGGER.warn("Error checking private and work-in-progress status", e);
+        }
+
         boolean result;
         result = true;
 

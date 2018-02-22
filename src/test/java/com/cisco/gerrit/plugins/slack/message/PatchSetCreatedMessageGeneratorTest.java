@@ -73,7 +73,8 @@ public class PatchSetCreatedMessageGeneratorTest
     private ProjectConfig getConfig(
         String ignore,
         boolean publishOnPatchSetCreated,
-        boolean ignoreRebaseEmptyPatchSet)
+        boolean ignoreRebaseEmptyPatchSet,
+        boolean ignoreWipPrivate)
         throws Exception
     {
         Project.NameKey projectNameKey;
@@ -98,29 +99,63 @@ public class PatchSetCreatedMessageGeneratorTest
                 .thenReturn(publishOnPatchSetCreated);
         when(mockPluginConfig.getBoolean("ignore-rebase-empty-patch-set", true))
                 .thenReturn(ignoreRebaseEmptyPatchSet);
+        when(mockPluginConfig.getBoolean("ignore-wip-private", true))
+                .thenReturn(ignoreWipPrivate);
 
         return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
     }
 
     private ProjectConfig getConfig(String ignore) throws Exception
     {
-        return getConfig(ignore, true /* publishOnPatchSetCreated */, true /* ignoreRebaseEmptyPatchSet */);
+        return getConfig(
+            ignore,
+            true /* publishOnPatchSetCreated */,
+            true /* ignoreRebaseEmptyPatchSet */,
+            true /* ignoreWipPrivate */
+        );
     }
 
     private ProjectConfig getConfig(boolean publishOnPatchSetCreated) throws Exception
     {
-        return getConfig("^WIP.*", publishOnPatchSetCreated, true /* ignoreRebaseEmptyPatchSet */);
+        return getConfig(
+            "^WIP.*",
+            publishOnPatchSetCreated,
+            true /* ignoreRebaseEmptyPatchSet */,
+            true /* ignoreWipPrivate */
+        );
     }
 
     private ProjectConfig getConfig(boolean publishOnPatchSetCreated,
                                         boolean ignoreRebaseEmptyPatchSet) throws Exception
     {
-        return getConfig("^WIP.*", publishOnPatchSetCreated, ignoreRebaseEmptyPatchSet);
+        return getConfig(
+            "^WIP.*",
+            publishOnPatchSetCreated,
+            ignoreRebaseEmptyPatchSet,
+            true /* ignoreWipPrivate */
+        );
+    }
+
+    private ProjectConfig getConfig(boolean publishOnPatchSetCreated,
+                                        boolean ignoreRebaseEmptyPatchSet,
+                                        boolean ignoreWipPrivate) throws Exception
+    {
+        return getConfig(
+            "^WIP.*",
+            publishOnPatchSetCreated,
+            ignoreRebaseEmptyPatchSet,
+            ignoreWipPrivate
+        );
     }
 
     private ProjectConfig getConfig() throws Exception
     {
-        return getConfig("^WIP.*", true /* publishOnPatchSetCreated */, true /* ignoreRebaseEmptyPatchSet */);
+        return getConfig(
+            "^WIP.*",
+            true /* publishOnPatchSetCreated */,
+            true /* ignoreRebaseEmptyPatchSet */,
+            true /* ignoreWipPrivate */
+        );
     }
 
     @Test
@@ -349,6 +384,79 @@ public class PatchSetCreatedMessageGeneratorTest
         assertThat(messageGenerator.shouldPublish(), is(true));
     }
 
+    @Test
+    public void doesNotPublishWhenWorkInProgress() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = false;
+        mockChange.wip = true;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(false));
+    }
+
+    @Test
+    public void doesNotPublishWhenPrivate() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = true;
+        mockChange.wip = false;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(false));
+    }
+
+    @Test
+    public void publishesWhenWorkInProgress() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig(true /* publishOnPatchSetCreated */,
+            false /* ignoreRebaseEmptyPatchSet */,
+            false /* ignoreWipPrivate */);
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = false;
+        mockChange.wip = true;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(true));
+    }
+
+    @Test
+    public void publishesWhenPrivate() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig(true /* publishOnPatchSetCreated */,
+            false /* ignoreRebaseEmptyPatchSet */,
+            false /* ignoreWipPrivate */);
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = true;
+        mockChange.wip = false;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(true));
+    }
+
+    @Test
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks

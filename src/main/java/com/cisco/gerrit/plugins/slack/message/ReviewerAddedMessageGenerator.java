@@ -62,7 +62,26 @@ public class ReviewerAddedMessageGenerator implements MessageGenerator
     @Override
     public boolean shouldPublish()
     {
-        return config.isEnabled() && config.shouldPublishOnReviewerAdded();
+        if (!config.isEnabled() || !config.shouldPublishOnReviewerAdded())
+        {
+            return false;
+        }
+
+        try
+        {
+            if (config.getIgnoreWipPrivate() &&
+                (event.change.get().isPrivate || event.change.get().wip)
+            )
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            LOGGER.warn("Error checking private and work-in-progress status", e);
+        }
+
+        return true;
     }
 
     @Override

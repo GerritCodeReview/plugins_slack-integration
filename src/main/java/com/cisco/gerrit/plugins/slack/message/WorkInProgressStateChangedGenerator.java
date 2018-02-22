@@ -18,7 +18,7 @@
 package com.cisco.gerrit.plugins.slack.message;
 
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
-import com.google.gerrit.server.events.CommentAddedEvent;
+import com.google.gerrit.server.events.WorkInProgressStateChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,30 +26,29 @@ import static org.apache.commons.lang.StringUtils.substringBefore;
 
 /**
  * A specific MessageGenerator implementation that can generate a message for
- * a comment added event.
+ * a reviewer added event.
  *
- * @author Kenneth Pedersen
- * @author Matthew Montgomery
+ * @author Nathan Wall
  */
-public class CommentAddedMessageGenerator implements MessageGenerator
+public class WorkInProgressStateChangedGenerator implements MessageGenerator
 {
     /**
      * The class logger instance.
      */
     private static final Logger LOGGER =
-            LoggerFactory.getLogger(CommentAddedMessageGenerator.class);
+            LoggerFactory.getLogger(WorkInProgressStateChangedGenerator.class);
 
     private ProjectConfig config;
-    private CommentAddedEvent event;
+    private WorkInProgressStateChangedEvent event;
 
     /**
-     * Creates a new CommentAddedMessageGenerator instance using the provided
-     * CommentAddedEvent instance.
+     * Creates a new WorkInProgressStateChangedGenerator instance using the provided
+     * WorkInProgressStateChangedEvent instance.
      *
-     * @param event The CommentAddedEvent instance to generate a message for.
+     * @param event The WorkInProgressStateChangedEvent instance to generate a message for.
      */
-    CommentAddedMessageGenerator(CommentAddedEvent event,
-                                           ProjectConfig config)
+    WorkInProgressStateChangedGenerator(WorkInProgressStateChangedEvent event,
+                                            ProjectConfig config)
     {
         if (event == null)
         {
@@ -63,25 +62,16 @@ public class CommentAddedMessageGenerator implements MessageGenerator
     @Override
     public boolean shouldPublish()
     {
-        if (!config.isEnabled() || !config.shouldPublishOnCommentAdded())
+        if (!config.isEnabled() || !config.shouldPublishOnWipReady())
         {
             return false;
         }
 
-        try
+        // If the change is still work-in-progress then ignore
+        if (event.change.get().wip)
         {
-            if (config.getIgnoreWipPrivate() &&
-                (event.change.get().isPrivate || event.change.get().wip)
-            )
-            {
-                return false;
-            }
+            return false;
         }
-        catch (Exception e)
-        {
-            LOGGER.warn("Error checking private and work-in-progress status", e);
-        }
-
         return true;
     }
 
@@ -91,23 +81,19 @@ public class CommentAddedMessageGenerator implements MessageGenerator
         String message;
         message = "";
 
-        LOGGER.info(substringBefore(event.change.get().commitMessage, "\n"));
-        LOGGER.info(event.comment);
-
         try
         {
             MessageTemplate template;
             template = new MessageTemplate();
 
             template.setChannel(config.getChannel());
-            template.setName(event.author.get().name);
-            template.setAction("commented on");
+            template.setName(event.changer.get().name);
+            template.setAction("proposed");
+            template.setNumber(event.change.get().number);
             template.setProject(event.change.get().project);
             template.setBranch(event.change.get().branch);
             template.setUrl(event.change.get().url);
-            template.setNumber(event.change.get().number);
             template.setTitle(substringBefore(event.change.get().commitMessage, "\n"));
-            template.setMessage(event.comment);
 
             message = template.render();
         }
