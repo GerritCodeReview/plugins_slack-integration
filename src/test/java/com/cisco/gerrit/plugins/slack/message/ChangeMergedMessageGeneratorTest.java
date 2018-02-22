@@ -174,6 +174,38 @@ public class ChangeMergedMessageGeneratorTest
     }
 
     @Test
+    public void publishesWhenWorkInProgress() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.wip = true;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(true));
+    }
+
+    @Test
+    public void publishesWhenPrivate() throws Exception
+    {
+        // Setup mocks
+        ProjectConfig config = getConfig();
+        mockEvent.change = Suppliers.ofInstance(mockChange);
+        mockChange.isPrivate = true;
+
+        // Test
+        MessageGenerator messageGenerator;
+        messageGenerator = MessageGeneratorFactory.newInstance(
+                mockEvent, config);
+
+        assertThat(messageGenerator.shouldPublish(), is(true));
+    }
+
+    @Test
     public void generatesExpectedMessage() throws Exception
     {
         // Setup mocks
