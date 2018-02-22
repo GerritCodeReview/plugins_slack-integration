@@ -106,6 +106,12 @@ The following configuration options are available
     ignore-unchanged-patch-set - boolean (true/false)
         Whether a Slack notification about a new patch-set shouldn't be
         published when code didn't change (defaults to true).
+    ignore-wip-patch-set - boolean (true/false)
+        Whether any Slack notifications regarding a work-in-progress change
+        shouldn't be published (defaults to true).
+    ignore-private-patch-set - boolean (true/false)
+        Whether any Slack notifications regarding a private change shouldn't
+        be published (defaults to true).
     publish-on-patch-set-created - boolean (true/false)
         Whether a Slack notification should be published when a new patch set
         is created.
