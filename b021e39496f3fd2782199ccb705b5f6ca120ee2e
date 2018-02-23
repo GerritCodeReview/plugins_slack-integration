@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "caf730e1_5db7b176",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T20:08:04Z",
+      "side": 1,
+      "message": "I agree with you that suppressing publishing for unchanged patchsets is probably what most people would want. Lets go with keeping this on by default.",
+      "parentUuid": "77563ddd_141e9619",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bef951f2_386734ef",
         "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
         "patchSetId": 2
@@ -152,6 +170,24 @@
       "side": 1,
       "message": "I only added this test to verify that changes that actually do modify code are still correctly published. I just thought it was useful to have a positive test here but if you don\u0027t think we need it, that\u0027s fine too.",
       "parentUuid": "20ff60b2_dc950c48",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d71ee95_968b7dc7",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T20:08:04Z",
+      "side": 1,
+      "message": "I am good with leaving it in.",
+      "parentUuid": "36e7787b_900f362a",
       "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
