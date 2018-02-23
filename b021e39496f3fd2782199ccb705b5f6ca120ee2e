@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "77563ddd_141e9619",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1049452
+      },
+      "writtenOn": "2018-02-23T16:47:43Z",
+      "side": 1,
+      "message": "I was debating making this false to match the current behavior or making it true in the more general case. I would think that most people would turn this on and therefore defaulted it to true. I\u0027ll leave it up to your judgment.\n\nGood point about the README. I totally forgot about that.",
+      "parentUuid": "aa054099_851e13da",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bef951f2_386734ef",
         "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
         "patchSetId": 2
@@ -64,6 +82,24 @@
       "writtenOn": "2018-02-23T16:28:45Z",
       "side": 1,
       "message": "This is pretty readable but I wonder if writing a private method that takes the patchSet.kind value and returns a boolean would be cleaner. We could maybe do the checks in a switch statement. What do you think?",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31b5309f_c945e32d",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1049452
+      },
+      "writtenOn": "2018-02-23T16:47:43Z",
+      "side": 1,
+      "message": "Yeah making a private method that checks this is probably a better way to go.",
+      "parentUuid": "7f374ddc_389f4749",
       "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -101,6 +137,24 @@
       "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36e7787b_900f362a",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1049452
+      },
+      "writtenOn": "2018-02-23T16:47:43Z",
+      "side": 1,
+      "message": "I only added this test to verify that changes that actually do modify code are still correctly published. I just thought it was useful to have a positive test here but if you don\u0027t think we need it, that\u0027s fine too.",
+      "parentUuid": "20ff60b2_dc950c48",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
