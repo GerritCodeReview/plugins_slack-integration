@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69226442_da9dea6e",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T16:28:45Z",
+      "side": 1,
+      "message": "Let\u0027s order this underneath the pattern based ignore variable. Also, would renaming it to something like ignoreUnchangedPatchSet be a more meaningful name?",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa054099_851e13da",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T16:28:45Z",
+      "side": 1,
+      "message": "Based on the rest of the code we should be wrapping at 80 cols. Can you match the statement above and add a newline after the equals? I\u0027d also probably move this underneath the other ignore option for a more logical grouping.\n\nI wonder too is defaulting to false here is the better option so that the current behavior of the plugin does not change after upgrading. This option needs to be documented in the README.md file as well.",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef951f2_386734ef",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T16:28:45Z",
+      "side": 1,
+      "message": "Move underneath getIgnore.",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f374ddc_389f4749",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T16:28:45Z",
+      "side": 1,
+      "message": "This is pretty readable but I wonder if writing a private method that takes the patchSet.kind value and returns a boolean would be cleaner. We could maybe do the checks in a switch statement. What do you think?",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ca1a4db_a1fd8bd3",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T16:28:45Z",
+      "side": 1,
+      "message": "Let\u0027s keep the same naming pattern here and call this mockPatchSet.",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20ff60b2_dc950c48",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/message/PatchSetCreatedMessageGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-02-23T16:28:45Z",
+      "side": 1,
+      "message": "What is the need for this test? There is no support for this specific ChangeKind in the shouldPublish method.",
+      "revId": "b021e39496f3fd2782199ccb705b5f6ca120ee2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
