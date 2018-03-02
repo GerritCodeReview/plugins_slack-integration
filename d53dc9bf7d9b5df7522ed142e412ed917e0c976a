@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad3ae3eb_21500712",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-03-02T14:46:58Z",
+      "side": 1,
+      "message": "I feel like these should be separated into two config values,\nignoreWorkInProgressPatchSet and ignorePrivatePatchSet.",
+      "revId": "d53dc9bf7d9b5df7522ed142e412ed917e0c976a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73370dfc_369a3468",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/PrivateStateChangedGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-03-02T14:46:58Z",
+      "side": 1,
+      "message": "Copy pasta issue here from starting with the ReviewerAddedMessageGenerator class. Please update the Javadoc comment.",
+      "revId": "d53dc9bf7d9b5df7522ed142e412ed917e0c976a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "286a28e8_9bd1c3ab",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/message/WorkInProgressStateChangedGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2018-03-02T14:46:58Z",
+      "side": 1,
+      "message": "Copy pasta issue here from starting with the ReviewerAddedMessageGenerator class. Please update the Javadoc comment.",
+      "revId": "d53dc9bf7d9b5df7522ed142e412ed917e0c976a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
