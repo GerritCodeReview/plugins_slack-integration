@@ -208,12 +208,8 @@ public class WebhookClient
      */
     private String readResponse(InputStream responseStream)
     {
-        try
+        try (Scanner scanner = new Scanner(responseStream, "UTF-8").useDelimiter("\\A"))
         {
-            Scanner scanner;
-            scanner = new Scanner(responseStream, "UTF-8");
-            scanner.useDelimiter("\\A");
-
             return scanner.next();
         }
         catch (Exception e)
