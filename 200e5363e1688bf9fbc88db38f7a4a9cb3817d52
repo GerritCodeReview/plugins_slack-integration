@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "33e29aae_5f31745e",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-10T12:19:33Z",
+      "side": 1,
+      "message": "Oversight.  It should be using the release API but I copied this from the HA plugin which is currently using 2.14.7-SNAPSHOT.",
+      "parentUuid": "4e10de9a_89895716",
+      "revId": "200e5363e1688bf9fbc88db38f7a4a9cb3817d52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2eac67ea_d732f055",
         "filename": "tools/BUILD",
         "patchSetId": 2
