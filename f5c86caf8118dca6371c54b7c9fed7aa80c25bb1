@@ -16,6 +16,24 @@
       "revId": "f5c86caf8118dca6371c54b7c9fed7aa80c25bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "608e6d2e_6e6f54a2",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/client/WebhookClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-10T12:16:47Z",
+      "side": 1,
+      "message": "Eclipse is warning that the Scanner is not closed.  I\u0027ll have a look into this again on Monday.",
+      "parentUuid": "9a40f183_8e88adc2",
+      "revId": "f5c86caf8118dca6371c54b7c9fed7aa80c25bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
