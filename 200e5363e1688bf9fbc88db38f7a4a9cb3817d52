@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3dcf710f_dcbdb9e9",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-12T04:30:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fe6277_490f44c1",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "200e5363e1688bf9fbc88db38f7a4a9cb3817d52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ac38d4d_e708ef76",
         "filename": "BUILD",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-09T14:58:18Z",
       "side": 1,
       "message": "Is this really needed to disable sandboxing here?",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "200e5363e1688bf9fbc88db38f7a4a9cb3817d52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cd0477_313c6df2",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-12T04:30:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac38d4d_e708ef76",
       "range": {
         "startLine": 26,
         "startChar": 8,
@@ -94,6 +142,24 @@
       "writtenOn": "2018-03-09T14:58:18Z",
       "side": 1,
       "message": "Nit: It was requested in another review to add a marker here, for non Bazel experts between us, for why are we adding empty files accross repository, and I think that is a good call: [1]. I suggest to add:\n\n  # Empty marker file, indicating this directory is a Bazel package.\n\nHere and in another empty BUILD marker files.\n\n* [1] https://gerrit-review.googlesource.com/#/c/plugins/find-owners/+/148592/4/lib/prolog/BUILD@1",
+      "revId": "200e5363e1688bf9fbc88db38f7a4a9cb3817d52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11596fa2_e9cc14cb",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-12T04:30:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eac67ea_d732f055",
       "revId": "200e5363e1688bf9fbc88db38f7a4a9cb3817d52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
