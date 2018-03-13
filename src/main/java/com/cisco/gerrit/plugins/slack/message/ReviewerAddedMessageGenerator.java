@@ -17,81 +17,69 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
+import static org.apache.commons.lang.StringUtils.substringBefore;
+
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.apache.commons.lang.StringUtils.substringBefore;
-
 /**
- * A specific MessageGenerator implementation that can generate a message for
- * a reviewer added event.
+ * A specific MessageGenerator implementation that can generate a message for a reviewer added
+ * event.
  *
  * @author Nathan Wall
  */
-public class ReviewerAddedMessageGenerator implements MessageGenerator
-{
-    /**
-     * The class logger instance.
-     */
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(ReviewerAddedMessageGenerator.class);
+public class ReviewerAddedMessageGenerator implements MessageGenerator {
+  /** The class logger instance. */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ReviewerAddedMessageGenerator.class);
 
-    private ProjectConfig config;
-    private ReviewerAddedEvent event;
+  private ProjectConfig config;
+  private ReviewerAddedEvent event;
 
-    /**
-     * Creates a new ReviewerAddedMessageGenerator instance using the provided
-     * ReviewerAddedEvent instance.
-     *
-     * @param event The ReviewerAddedEvent instance to generate a message for.
-     */
-    ReviewerAddedMessageGenerator(ReviewerAddedEvent event,
-                                            ProjectConfig config)
-    {
-        if (event == null)
-        {
-            throw new NullPointerException("event cannot be null");
-        }
-
-        this.event = event;
-        this.config = config;
+  /**
+   * Creates a new ReviewerAddedMessageGenerator instance using the provided ReviewerAddedEvent
+   * instance.
+   *
+   * @param event The ReviewerAddedEvent instance to generate a message for.
+   */
+  ReviewerAddedMessageGenerator(ReviewerAddedEvent event, ProjectConfig config) {
+    if (event == null) {
+      throw new NullPointerException("event cannot be null");
     }
 
-    @Override
-    public boolean shouldPublish()
-    {
-        return config.isEnabled() && config.shouldPublishOnReviewerAdded();
+    this.event = event;
+    this.config = config;
+  }
+
+  @Override
+  public boolean shouldPublish() {
+    return config.isEnabled() && config.shouldPublishOnReviewerAdded();
+  }
+
+  @Override
+  public String generate() {
+    String message;
+    message = "";
+
+    try {
+      MessageTemplate template;
+      template = new MessageTemplate();
+
+      template.setChannel(config.getChannel());
+      template.setName(event.reviewer.get().name);
+      template.setAction("was added to review");
+      template.setNumber(event.change.get().number);
+      template.setProject(event.change.get().project);
+      template.setBranch(event.change.get().branch);
+      template.setUrl(event.change.get().url);
+      template.setTitle(substringBefore(event.change.get().commitMessage, "\n"));
+
+      message = template.render();
+    } catch (Exception e) {
+      LOGGER.error("Error generating message: " + e.getMessage(), e);
     }
 
-    @Override
-    public String generate()
-    {
-        String message;
-        message = "";
-
-        try
-        {
-            MessageTemplate template;
-            template = new MessageTemplate();
-
-            template.setChannel(config.getChannel());
-            template.setName(event.reviewer.get().name);
-            template.setAction("was added to review");
-            template.setNumber(event.change.get().number);
-            template.setProject(event.change.get().project);
-            template.setBranch(event.change.get().branch);
-            template.setUrl(event.change.get().url);
-            template.setTitle(substringBefore(event.change.get().commitMessage, "\n"));
-
-            message = template.render();
-        }
-        catch (Exception e)
-        {
-            LOGGER.error("Error generating message: " + e.getMessage(), e);
-        }
-
-        return message;
-    }
+    return message;
+  }
 }

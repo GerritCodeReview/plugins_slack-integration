@@ -17,106 +17,91 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
+import static org.apache.commons.lang.StringUtils.substringBefore;
+
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.apache.commons.lang.StringUtils.substringBefore;
-
 /**
- * A specific MessageGenerator implementation that can generate a message for a
- * patchset created event.
+ * A specific MessageGenerator implementation that can generate a message for a patchset created
+ * event.
  *
  * @author Matthew Montgomery
  */
-public class PatchSetCreatedMessageGenerator implements MessageGenerator
-{
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(PatchSetCreatedMessageGenerator.class);
+public class PatchSetCreatedMessageGenerator implements MessageGenerator {
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(PatchSetCreatedMessageGenerator.class);
 
-    private PatchSetCreatedEvent event;
-    private ProjectConfig config;
+  private PatchSetCreatedEvent event;
+  private ProjectConfig config;
 
-    /**
-     * Creates a new PatchSetCreatedMessageGenerator instance using the
-     * provided PatchSetCreatedEvent instance.
-     *
-     * @param event The PatchSetCreatedEvent instance to generate a
-     *              message for.
-     */
-    PatchSetCreatedMessageGenerator(PatchSetCreatedEvent event,
-            ProjectConfig config)
-    {
-        if (event == null)
-        {
-            throw new NullPointerException("event cannot be null");
-        }
-
-        this.event = event;
-        this.config = config;
+  /**
+   * Creates a new PatchSetCreatedMessageGenerator instance using the provided PatchSetCreatedEvent
+   * instance.
+   *
+   * @param event The PatchSetCreatedEvent instance to generate a message for.
+   */
+  PatchSetCreatedMessageGenerator(PatchSetCreatedEvent event, ProjectConfig config) {
+    if (event == null) {
+      throw new NullPointerException("event cannot be null");
     }
 
-    @Override
-    public boolean shouldPublish()
-    {
-        if (!config.isEnabled() || !config.shouldPublishOnPatchSetCreated())
-        {
-            return false;
-        }
+    this.event = event;
+    this.config = config;
+  }
 
-        boolean result;
-        result = true;
-
-        try
-        {
-            Pattern pattern;
-            pattern = Pattern.compile(config.getIgnore(), Pattern.DOTALL);
-
-            Matcher matcher;
-            matcher = pattern.matcher(event.change.get().commitMessage);
-
-            // If the ignore pattern matches, publishing should not happen
-            result = !matcher.matches();
-        }
-        catch (Exception e)
-        {
-            LOGGER.warn("The specified ignore pattern was invalid", e);
-        }
-
-        return result;
+  @Override
+  public boolean shouldPublish() {
+    if (!config.isEnabled() || !config.shouldPublishOnPatchSetCreated()) {
+      return false;
     }
 
-    @Override
-    public String generate()
-    {
-        String message;
-        message = "";
+    boolean result;
+    result = true;
 
-        try
-        {
-            MessageTemplate template;
-            template = new MessageTemplate();
+    try {
+      Pattern pattern;
+      pattern = Pattern.compile(config.getIgnore(), Pattern.DOTALL);
 
-            template.setChannel(config.getChannel());
-            template.setName(event.uploader.get().name);
-            template.setAction("proposed");
-            template.setNumber(event.change.get().number);
-            template.setProject(event.change.get().project);
-            template.setBranch(event.change.get().branch);
-            template.setUrl(event.change.get().url);
-            template.setTitle(substringBefore(event.change.get().commitMessage, "\n"));
+      Matcher matcher;
+      matcher = pattern.matcher(event.change.get().commitMessage);
 
-            message = template.render();
-        }
-        catch (Exception e)
-        {
-            LOGGER.error("Error generating message: " + e.getMessage(), e);
-        }
-
-        return message;
+      // If the ignore pattern matches, publishing should not happen
+      result = !matcher.matches();
+    } catch (Exception e) {
+      LOGGER.warn("The specified ignore pattern was invalid", e);
     }
+
+    return result;
+  }
+
+  @Override
+  public String generate() {
+    String message;
+    message = "";
+
+    try {
+      MessageTemplate template;
+      template = new MessageTemplate();
+
+      template.setChannel(config.getChannel());
+      template.setName(event.uploader.get().name);
+      template.setAction("proposed");
+      template.setNumber(event.change.get().number);
+      template.setProject(event.change.get().project);
+      template.setBranch(event.change.get().branch);
+      template.setUrl(event.change.get().url);
+      template.setTitle(substringBefore(event.change.get().commitMessage, "\n"));
+
+      message = template.render();
+    } catch (Exception e) {
+      LOGGER.error("Error generating message: " + e.getMessage(), e);
+    }
+
+    return message;
+  }
 }

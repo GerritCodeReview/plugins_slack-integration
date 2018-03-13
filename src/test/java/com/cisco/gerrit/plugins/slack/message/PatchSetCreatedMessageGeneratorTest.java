@@ -17,6 +17,12 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.common.base.Suppliers;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,197 +38,161 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-/**
- * Tests for the PatchSetCreatedMessageGeneratorTest class.
- */
+/** Tests for the PatchSetCreatedMessageGeneratorTest class. */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Project.NameKey.class})
-public class PatchSetCreatedMessageGeneratorTest
-{
-    private static final String PROJECT_NAME = "test-project";
+public class PatchSetCreatedMessageGeneratorTest {
+  private static final String PROJECT_NAME = "test-project";
 
-    private Project.NameKey mockNameKey =
-            mock(Project.NameKey.class);
+  private Project.NameKey mockNameKey = mock(Project.NameKey.class);
 
-    private PluginConfigFactory mockConfigFactory =
-            mock(PluginConfigFactory.class);
+  private PluginConfigFactory mockConfigFactory = mock(PluginConfigFactory.class);
 
-    private PluginConfig mockPluginConfig =
-            mock(PluginConfig.class);
+  private PluginConfig mockPluginConfig = mock(PluginConfig.class);
 
-    private PatchSetCreatedEvent mockEvent = mock(PatchSetCreatedEvent.class);
-    private AccountAttribute mockAccount = mock(AccountAttribute.class);
-    private ChangeAttribute mockChange = mock(ChangeAttribute.class);
+  private PatchSetCreatedEvent mockEvent = mock(PatchSetCreatedEvent.class);
+  private AccountAttribute mockAccount = mock(AccountAttribute.class);
+  private ChangeAttribute mockChange = mock(ChangeAttribute.class);
 
-    @Before
-    public void setup() throws Exception
-    {
-        PowerMockito.mockStatic(Project.NameKey.class);
-        when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-    }
+  @Before
+  public void setup() throws Exception {
+    PowerMockito.mockStatic(Project.NameKey.class);
+    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
+  }
 
-    private ProjectConfig getConfig(
-        String ignore,
-        boolean publishOnPatchSetCreated)
-        throws Exception
-    {
-        Project.NameKey projectNameKey;
-        projectNameKey = Project.NameKey.parse(PROJECT_NAME);
+  private ProjectConfig getConfig(String ignore, boolean publishOnPatchSetCreated)
+      throws Exception {
+    Project.NameKey projectNameKey;
+    projectNameKey = Project.NameKey.parse(PROJECT_NAME);
 
-        // Setup mocks
-        when(mockConfigFactory.getFromProjectConfigWithInheritance(
-                projectNameKey, ProjectConfig.CONFIG_NAME))
-                .thenReturn(mockPluginConfig);
+    // Setup mocks
+    when(mockConfigFactory.getFromProjectConfigWithInheritance(
+            projectNameKey, ProjectConfig.CONFIG_NAME))
+        .thenReturn(mockPluginConfig);
 
-        when(mockPluginConfig.getBoolean("enabled", false))
-                .thenReturn(true);
-        when(mockPluginConfig.getString("webhookurl", ""))
-                .thenReturn("https://webook/");
-        when(mockPluginConfig.getString("channel", "general"))
-                .thenReturn("testchannel");
-        when(mockPluginConfig.getString("username", "gerrit"))
-                .thenReturn("testuser");
-        when(mockPluginConfig.getString("ignore", ""))
-                .thenReturn(ignore);
-        when(mockPluginConfig.getBoolean("publish-on-patch-set-created", true))
-                .thenReturn(publishOnPatchSetCreated);
+    when(mockPluginConfig.getBoolean("enabled", false)).thenReturn(true);
+    when(mockPluginConfig.getString("webhookurl", "")).thenReturn("https://webook/");
+    when(mockPluginConfig.getString("channel", "general")).thenReturn("testchannel");
+    when(mockPluginConfig.getString("username", "gerrit")).thenReturn("testuser");
+    when(mockPluginConfig.getString("ignore", "")).thenReturn(ignore);
+    when(mockPluginConfig.getBoolean("publish-on-patch-set-created", true))
+        .thenReturn(publishOnPatchSetCreated);
 
-        return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
-    }
+    return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+  }
 
-    private ProjectConfig getConfig(String ignore) throws Exception
-    {
-        return getConfig(ignore, true /* publishOnPatchSetCreated */);
-    }
+  private ProjectConfig getConfig(String ignore) throws Exception {
+    return getConfig(ignore, true /* publishOnPatchSetCreated */);
+  }
 
-    private ProjectConfig getConfig(boolean publishOnPatchSetCreated) throws Exception
-    {
-        return getConfig("^WIP.*", publishOnPatchSetCreated);
-    }
+  private ProjectConfig getConfig(boolean publishOnPatchSetCreated) throws Exception {
+    return getConfig("^WIP.*", publishOnPatchSetCreated);
+  }
 
-    private ProjectConfig getConfig() throws Exception
-    {
-        return getConfig("^WIP.*", true /* publishOnPatchSetCreated */);
-    }
+  private ProjectConfig getConfig() throws Exception {
+    return getConfig("^WIP.*", true /* publishOnPatchSetCreated */);
+  }
 
-    @Test
-    public void factoryCreatesExpectedType() throws Exception
-    {
-        ProjectConfig config = getConfig();
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
+  @Test
+  public void factoryCreatesExpectedType() throws Exception {
+    ProjectConfig config = getConfig();
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
-        assertThat(messageGenerator instanceof PatchSetCreatedMessageGenerator,
-                is(true));
-    }
+    assertThat(messageGenerator instanceof PatchSetCreatedMessageGenerator, is(true));
+  }
 
-    @Test
-    public void publishesWhenExpected() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig();
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockChange.commitMessage = "This is a title\nAnd a the body.";
+  @Test
+  public void publishesWhenExpected() throws Exception {
+    // Setup mocks
+    ProjectConfig config = getConfig();
+    mockEvent.change = Suppliers.ofInstance(mockChange);
+    mockChange.commitMessage = "This is a title\nAnd a the body.";
 
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
+    // Test
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
-        assertThat(messageGenerator.shouldPublish(), is(true));
-    }
+    assertThat(messageGenerator.shouldPublish(), is(true));
+  }
 
-    @Test
-    public void doesNotPublishWhenMessageMatchesIgnore() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig();
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockChange.commitMessage = "WIP-This is a title\nAnd a the body.";
+  @Test
+  public void doesNotPublishWhenMessageMatchesIgnore() throws Exception {
+    // Setup mocks
+    ProjectConfig config = getConfig();
+    mockEvent.change = Suppliers.ofInstance(mockChange);
+    mockChange.commitMessage = "WIP-This is a title\nAnd a the body.";
 
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
+    // Test
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
-        assertThat(messageGenerator.shouldPublish(), is(false));
-    }
+    assertThat(messageGenerator.shouldPublish(), is(false));
+  }
 
-    @Test
-    public void doesNotPublishWhenTurnedOff() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig(false /* publishOnPatchSetCreated */);
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockChange.commitMessage = "This is a title\nAnd a the body.";
+  @Test
+  public void doesNotPublishWhenTurnedOff() throws Exception {
+    // Setup mocks
+    ProjectConfig config = getConfig(false /* publishOnPatchSetCreated */);
+    mockEvent.change = Suppliers.ofInstance(mockChange);
+    mockChange.commitMessage = "This is a title\nAnd a the body.";
 
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
+    // Test
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
-        assertThat(messageGenerator.shouldPublish(), is(false));
-    }
+    assertThat(messageGenerator.shouldPublish(), is(false));
+  }
 
-    @Test
-    public void handlesInvalidIgnorePatterns() throws Exception
-    {
-        ProjectConfig config = getConfig(null /* ignore */);
+  @Test
+  public void handlesInvalidIgnorePatterns() throws Exception {
+    ProjectConfig config = getConfig(null /* ignore */);
 
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
+    // Test
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
-        assertThat(messageGenerator.shouldPublish(), is(true));
-    }
+    assertThat(messageGenerator.shouldPublish(), is(true));
+  }
 
-    @Test
-    public void generatesExpectedMessage() throws Exception
-    {
-        // Setup mocks
-        ProjectConfig config = getConfig();
-        mockEvent.change = Suppliers.ofInstance(mockChange);
-        mockEvent.uploader = Suppliers.ofInstance(mockAccount);
+  @Test
+  public void generatesExpectedMessage() throws Exception {
+    // Setup mocks
+    ProjectConfig config = getConfig();
+    mockEvent.change = Suppliers.ofInstance(mockChange);
+    mockEvent.uploader = Suppliers.ofInstance(mockAccount);
 
-        mockChange.number = 1234;
-        mockChange.project = "testproject";
-        mockChange.branch = "master";
-        mockChange.url = "https://change/";
-        mockChange.commitMessage = "This is the title\nThis is the message body.";
+    mockChange.number = 1234;
+    mockChange.project = "testproject";
+    mockChange.branch = "master";
+    mockChange.url = "https://change/";
+    mockChange.commitMessage = "This is the title\nThis is the message body.";
 
-        mockAccount.name = "Unit Tester";
+    mockAccount.name = "Unit Tester";
 
-        // Test
-        MessageGenerator messageGenerator;
-        messageGenerator = MessageGeneratorFactory.newInstance(
-                mockEvent, config);
+    // Test
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
-        String expectedResult;
-        expectedResult = "{\n" +
-                "  \"channel\": \"#testchannel\",\n" +
-                "  \"attachments\": [\n" +
-                "    {\n" +
-                "      \"fallback\": \"Unit Tester proposed testproject (master) https://change/: This is the title\",\n" +
-                "      \"pretext\": \"Unit Tester proposed <https://change/|testproject (master) change 1234>\",\n" +
-                "      \"title\": \"This is the title\",\n" +
-                "      \"title_link\": \"https://change/\",\n" +
-                "      \"text\": \"\",\n" +
-                "      \"color\": \"good\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}\n";
+    String expectedResult;
+    expectedResult =
+        "{\n"
+            + "  \"channel\": \"#testchannel\",\n"
+            + "  \"attachments\": [\n"
+            + "    {\n"
+            + "      \"fallback\": \"Unit Tester proposed testproject (master) https://change/: This is the title\",\n"
+            + "      \"pretext\": \"Unit Tester proposed <https://change/|testproject (master) change 1234>\",\n"
+            + "      \"title\": \"This is the title\",\n"
+            + "      \"title_link\": \"https://change/\",\n"
+            + "      \"text\": \"\",\n"
+            + "      \"color\": \"good\"\n"
+            + "    }\n"
+            + "  ]\n"
+            + "}\n";
 
-        String actualResult;
-        actualResult = messageGenerator.generate();
+    String actualResult;
+    actualResult = messageGenerator.generate();
 
-        assertThat(actualResult, is(equalTo(expectedResult)));
-    }
+    assertThat(actualResult, is(equalTo(expectedResult)));
+  }
 }
