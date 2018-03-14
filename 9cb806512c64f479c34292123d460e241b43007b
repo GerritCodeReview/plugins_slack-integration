@@ -46,6 +46,30 @@
       "revId": "9cb806512c64f479c34292123d460e241b43007b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1238d133_15075621",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-14T05:26:52Z",
+      "side": 1,
+      "message": "Ah, right, and that was needed because of dissolving of top-level directories series, particularly this change: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/122031",
+      "parentUuid": "b90aa328_0249437e",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "9cb806512c64f479c34292123d460e241b43007b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
