@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "653bd553_d5287aef",
+        "filename": "src/main/java/com/cisco/gerrit/plugins/slack/config/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-15T00:26:44Z",
+      "side": 1,
+      "message": "When I run it, it adds a blank line here.",
+      "revId": "611836b05ab244da7d94ea645258a27deb1fba0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
