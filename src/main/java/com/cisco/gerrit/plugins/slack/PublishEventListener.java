@@ -88,7 +88,7 @@ public class PublishEventListener implements EventListener {
 
       if (messageGenerator.shouldPublish()) {
         WebhookClient client;
-        client = new WebhookClient();
+        client = new WebhookClient(config);
 
         client.publish(messageGenerator.generate(), config.getWebhookUrl());
       }

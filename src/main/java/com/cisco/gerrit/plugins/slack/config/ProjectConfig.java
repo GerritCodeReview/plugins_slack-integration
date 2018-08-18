@@ -29,11 +29,11 @@ import org.slf4j.LoggerFactory;
  * @author Matthew Montgomery
  */
 public class ProjectConfig {
-  /** The class logger instance. */
-  private static final Logger LOGGER = LoggerFactory.getLogger(ProjectConfig.class);
-
   /** The name of the plugin config section to lookup within the gerrit.config file. */
   public static final String CONFIG_NAME = "slack-integration";
+
+  /** The class logger instance. */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ProjectConfig.class);
 
   private boolean enabled;
   private String webhookUrl;
@@ -44,6 +44,11 @@ public class ProjectConfig {
   private boolean publishOnChangeMerged;
   private boolean publishOnCommentAdded;
   private boolean publishOnReviewerAdded;
+
+  private String proxyHost;
+  private int proxyPort;
+  private String proxyUsername;
+  private String proxyPassword;
 
   /**
    * Creates a new instance of the ProjectConfig class for the given project.
@@ -141,5 +146,21 @@ public class ProjectConfig {
 
   public boolean shouldPublishOnReviewerAdded() {
     return publishOnReviewerAdded;
+  }
+
+  public String getProxyHost() {
+    return proxyHost;
+  }
+
+  public int getProxyPort() {
+    return proxyPort;
+  }
+
+  public String getProxyUsername() {
+    return proxyUsername;
+  }
+
+  public String getProxyPassword() {
+    return proxyPassword;
   }
 }

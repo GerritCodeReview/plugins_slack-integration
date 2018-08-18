@@ -73,6 +73,9 @@ public class CommentAddedMessageGeneratorTest {
             projectNameKey, ProjectConfig.CONFIG_NAME))
         .thenReturn(mockPluginConfig);
 
+    when(mockConfigFactory.getFromGerritConfig(ProjectConfig.CONFIG_NAME))
+            .thenReturn(mockPluginConfig);
+
     when(mockPluginConfig.getBoolean("enabled", false)).thenReturn(true);
     when(mockPluginConfig.getString("webhookurl", "")).thenReturn("https://webook/");
     when(mockPluginConfig.getString("channel", "general")).thenReturn("testchannel");
