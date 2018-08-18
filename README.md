@@ -126,9 +126,41 @@ The following configuration options are available
         added to a review.
     publish-on-wip-ready - boolean(true/false)
         Whether a Slack notification should be published when a
-        work-in-progress change is marked ready. (defaults to the value for
-        publish-on-patch-set-created)
+        work-in-progress change is marked ready (defaults to the value for
+        publish-on-patch-set-created).
     publish-on-private-to-public - boolean(true/false)
         Whether a Slack notification should be published when a
-        private change is changed to public. (defaults to the value for
-        publish-on-patch-set-created)
+        private change is changed to public (defaults to the value for
+        publish-on-patch-set-created).
+   
+        
+Proxy Configuration
+-------------------
+
+If a proxy is needed to connect externally to Slack, a proxy server may
+be configured via Gerrit's main configuration file. The path to this file will
+vary based on where Gerrit was installed. This example assumes that Gerrit was 
+installed in _/usr/local/gerrit_.
+
+Edit _/usr/local/gerrit/etc/gerrit.config_ and add the following block.
+
+    [plugin "slack-integration"]
+        proxy-host = <hostname or IP address of the proxy server>
+        proxy-port = <port of the proxy server>
+
+
+Proxy Configuration Options
+---------------------------
+
+The following configuration options are available
+    
+    proxy-host - String
+        The host of the proxy server, e.g. my.proxy.host (defaults to null).
+    proxy-port - int
+        The port of the proxy server (defaults to 8080)
+    proxy-username - String
+        The username, if needed, to authenticate to the proxy server 
+        (defaults to null).
+    proxy-password - String
+        The password, if needed, for the specified username to authenticate to 
+        the proxy server, (defaults to null).
