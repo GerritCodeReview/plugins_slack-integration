@@ -17,11 +17,14 @@
 
 package com.cisco.gerrit.plugins.slack.client;
 
+import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -37,6 +40,17 @@ import org.slf4j.LoggerFactory;
 public class WebhookClient {
   /** The class logger instance. */
   private static final Logger LOGGER = LoggerFactory.getLogger(WebhookClient.class);
+
+  private ProjectConfig config;
+
+  /**
+   * Creates a new WebhookClient.
+   *
+   * @param config The ProjectConfig instance to use.
+   */
+  public WebhookClient(ProjectConfig config) {
+    this.config = config;
+  }
 
   /**
    * Publish a message to the provided Slack webhook URL.
@@ -94,7 +108,7 @@ public class WebhookClient {
         DataOutputStream request;
         request = new DataOutputStream(connection.getOutputStream());
 
-        request.write(message.getBytes("UTF-8"));
+        request.write(message.getBytes(StandardCharsets.UTF_8));
         request.flush();
         request.close();
       } catch (IOException e) {
@@ -119,7 +133,19 @@ public class WebhookClient {
    */
   private HttpURLConnection openConnection(String webhookUrl) {
     try {
-      return (HttpURLConnection) new URL(webhookUrl).openConnection();
+      HttpURLConnection connection;
+      if (config.getProxyHost() != null) {
+        Proxy proxy;
+        proxy =
+            new Proxy(
+                Proxy.Type.HTTP,
+                new InetSocketAddress(config.getProxyHost(), config.getProxyPort()));
+
+        connection = (HttpURLConnection) new URL(webhookUrl).openConnection(proxy);
+      } else {
+        connection = (HttpURLConnection) new URL(webhookUrl).openConnection();
+      }
+      return connection;
     } catch (MalformedURLException e) {
       throw new RuntimeException("Unable to create webhook URL: " + webhookUrl, e);
     } catch (IOException e) {

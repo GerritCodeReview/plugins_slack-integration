@@ -18,18 +18,58 @@
 package com.cisco.gerrit.plugins.slack.client;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.cisco.gerrit.plugins.slack.message.MessageTemplate;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import java.io.InputStream;
 import java.util.Properties;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Project.NameKey.class})
 public class WebhookClientIntegrationTest {
+  private static final String PROJECT_NAME = "test-project";
+
+  private Project.NameKey mockNameKey = mock(Project.NameKey.class);
+  private PluginConfigFactory mockConfigFactory = mock(PluginConfigFactory.class);
+  private PluginConfig mockPluginConfig = mock(PluginConfig.class);
+
+  @Before
+  public void setup() throws Exception {
+    PowerMockito.mockStatic(Project.NameKey.class);
+    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
+  }
+
+  private ProjectConfig getConfig() throws Exception {
+    Project.NameKey projectNameKey;
+    projectNameKey = Project.NameKey.parse(PROJECT_NAME);
+
+    // Setup mocks
+    when(mockConfigFactory.getFromProjectConfigWithInheritance(
+            projectNameKey, ProjectConfig.CONFIG_NAME))
+        .thenReturn(mockPluginConfig);
+
+    when(mockConfigFactory.getFromGerritConfig(ProjectConfig.CONFIG_NAME))
+        .thenReturn(mockPluginConfig);
+
+    return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
+  }
+
   @Test
   public void canPublishMessage() throws Exception {
     WebhookClient client;
-    client = new WebhookClient();
+    client = new WebhookClient(getConfig());
 
     InputStream testProperties;
     testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties");
@@ -61,7 +101,7 @@ public class WebhookClientIntegrationTest {
   @Test
   public void canPublishMessageWithLongMessage() throws Exception {
     WebhookClient client;
-    client = new WebhookClient();
+    client = new WebhookClient(getConfig());
 
     InputStream testProperties;
     testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties");
