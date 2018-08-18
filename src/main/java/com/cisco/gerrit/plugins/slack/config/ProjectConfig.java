@@ -29,11 +29,11 @@ import org.slf4j.LoggerFactory;
  * @author Matthew Montgomery
  */
 public class ProjectConfig {
-  /** The class logger instance. */
-  private static final Logger LOGGER = LoggerFactory.getLogger(ProjectConfig.class);
-
   /** The name of the plugin config section to lookup within the gerrit.config file. */
   public static final String CONFIG_NAME = "slack-integration";
+
+  /** The class logger instance. */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ProjectConfig.class);
 
   private boolean enabled;
   private String webhookUrl;
@@ -49,6 +49,11 @@ public class ProjectConfig {
   private boolean publishOnReviewerAdded;
   private boolean publishOnWipReady;
   private boolean publishOnPrivateToPublic;
+
+  private String proxyHost;
+  private int proxyPort;
+  private String proxyUsername;
+  private String proxyPassword;
 
   /**
    * Creates a new instance of the ProjectConfig class for the given project.
@@ -132,6 +137,16 @@ public class ProjectConfig {
           configFactory
               .getFromProjectConfigWithInheritance(projectNameKey, CONFIG_NAME)
               .getBoolean("publish-on-private-to-public", publishOnPatchSetCreated);
+
+      proxyHost = configFactory.getFromGerritConfig(CONFIG_NAME).getString("proxy-host", null);
+
+      proxyPort = configFactory.getFromGerritConfig(CONFIG_NAME).getInt("proxy-port", 8080);
+
+      proxyUsername =
+          configFactory.getFromGerritConfig(CONFIG_NAME).getString("proxy-username", null);
+
+      proxyPassword =
+          configFactory.getFromGerritConfig(CONFIG_NAME).getString("proxy-password", null);
     } catch (NoSuchProjectException e) {
       LOGGER.warn("The specified project could not be found: " + project);
     }
@@ -191,5 +206,21 @@ public class ProjectConfig {
 
   public boolean shouldPublishOnPrivateToPublic() {
     return publishOnPrivateToPublic;
+  }
+
+  public String getProxyHost() {
+    return proxyHost;
+  }
+
+  public int getProxyPort() {
+    return proxyPort;
+  }
+
+  public String getProxyUsername() {
+    return proxyUsername;
+  }
+
+  public String getProxyPassword() {
+    return proxyPassword;
   }
 }
