@@ -63,6 +63,10 @@ public class WebhookClientIntegrationTest {
     when(mockConfigFactory.getFromGerritConfig(ProjectConfig.CONFIG_NAME))
         .thenReturn(mockPluginConfig);
 
+    // Internal proxy integration test config
+    when(mockPluginConfig.getString("proxy-host", null)).thenReturn("192.168.1.5");
+    when(mockPluginConfig.getInt("proxy-port", 8080)).thenReturn(8888);
+
     return new ProjectConfig(mockConfigFactory, PROJECT_NAME);
   }
 

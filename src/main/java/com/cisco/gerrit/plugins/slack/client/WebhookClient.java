@@ -21,13 +21,16 @@ import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,7 +137,20 @@ public class WebhookClient {
   private HttpURLConnection openConnection(String webhookUrl) {
     try {
       HttpURLConnection connection;
-      if (config.getProxyHost() != null) {
+      if (StringUtils.isNotBlank(config.getProxyHost())) {
+        LOGGER.info("Connecting via proxy");
+        if (StringUtils.isNotBlank(config.getProxyUsername())) {
+          Authenticator authenticator;
+          authenticator =
+              new Authenticator() {
+                public PasswordAuthentication getPasswordAuthentication() {
+                  return (new PasswordAuthentication(
+                      config.getProxyUsername(), config.getProxyPassword().toCharArray()));
+                }
+              };
+          Authenticator.setDefault(authenticator);
+        }
+
         Proxy proxy;
         proxy =
             new Proxy(
@@ -143,6 +159,7 @@ public class WebhookClient {
 
         connection = (HttpURLConnection) new URL(webhookUrl).openConnection(proxy);
       } else {
+        LOGGER.info("Connecting directly");
         connection = (HttpURLConnection) new URL(webhookUrl).openConnection();
       }
       return connection;
