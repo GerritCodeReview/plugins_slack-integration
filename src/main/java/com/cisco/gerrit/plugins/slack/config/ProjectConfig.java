@@ -107,6 +107,16 @@ public class ProjectConfig {
           configFactory
               .getFromProjectConfigWithInheritance(projectNameKey, CONFIG_NAME)
               .getBoolean("publish-on-reviewer-added", true);
+
+      proxyHost = configFactory.getFromGerritConfig(CONFIG_NAME).getString("proxy-host", null);
+
+      proxyPort = configFactory.getFromGerritConfig(CONFIG_NAME).getInt("proxy-port", 8080);
+
+      proxyUsername =
+          configFactory.getFromGerritConfig(CONFIG_NAME).getString("proxy-username", null);
+
+      proxyPassword =
+          configFactory.getFromGerritConfig(CONFIG_NAME).getString("proxy-password", null);
     } catch (NoSuchProjectException e) {
       LOGGER.warn("The specified project could not be found: " + project);
     }
