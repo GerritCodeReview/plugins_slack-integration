@@ -3,7 +3,7 @@ workspace(name = "slack_integration")
 load("//:bazlets.bzl", "load_bazlets")
 
 load_bazlets(
-    commit = "34d5ef186f73c80e61dcfa057ee400b2725164bf",
+    commit = "6d3fd710ea4ca44805bb8c858d72b53bd3a500f3",
     #    local_path = "/Users/dpursehouse/git/bazlets",
 )
 
