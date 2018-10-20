@@ -83,7 +83,7 @@ public class PublishEventListener implements EventListener {
 
         config = new ProjectConfig(configFactory, ALL_PROJECTS);
 
-        messageGenerator = MessageGeneratorFactory.newInstance(event, config);
+        messageGenerator = MessageGeneratorFactory.newInstance(event);
       }
 
       if (messageGenerator.shouldPublish()) {
