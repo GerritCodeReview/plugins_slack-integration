@@ -17,7 +17,6 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.gerrit.server.events.Event;
 
 /**
@@ -27,16 +26,14 @@ import com.google.gerrit.server.events.Event;
  * @author Matthew Montgomery
  */
 public class UnsupportedMessageGenerator implements MessageGenerator {
-  private ProjectConfig config;
   private Event event;
 
-  UnsupportedMessageGenerator(Event event, ProjectConfig config) {
+  UnsupportedMessageGenerator(Event event) {
     if (event == null) {
       throw new NullPointerException("event cannot be null");
     }
 
     this.event = event;
-    this.config = config;
   }
 
   @Override

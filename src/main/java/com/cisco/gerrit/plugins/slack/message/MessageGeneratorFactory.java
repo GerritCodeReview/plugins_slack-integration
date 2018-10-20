@@ -98,7 +98,7 @@ public class MessageGeneratorFactory {
    */
   public static MessageGenerator newInstance(Event event, ProjectConfig config) {
     UnsupportedMessageGenerator messageGenerator;
-    messageGenerator = new UnsupportedMessageGenerator(event, config);
+    messageGenerator = new UnsupportedMessageGenerator(event);
 
     return messageGenerator;
   }
