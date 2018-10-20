@@ -141,6 +141,7 @@ public class WebhookClient {
           Authenticator authenticator;
           authenticator =
               new Authenticator() {
+                @Override
                 public PasswordAuthentication getPasswordAuthentication() {
                   return (new PasswordAuthentication(
                       config.getProxyUsername(), config.getProxyPassword().toCharArray()));
