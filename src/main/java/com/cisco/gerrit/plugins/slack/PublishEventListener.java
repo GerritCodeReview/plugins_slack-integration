@@ -42,7 +42,12 @@ public class PublishEventListener implements EventListener {
 
   private static final String ALL_PROJECTS = "All-Projects";
 
-  @Inject private PluginConfigFactory configFactory;
+  private final PluginConfigFactory configFactory;
+
+  @Inject
+  PublishEventListener(PluginConfigFactory configFactory) {
+    this.configFactory = configFactory;
+  }
 
   @Override
   public void onEvent(Event event) {
