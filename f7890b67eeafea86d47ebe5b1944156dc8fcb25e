@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a37bede9_6c62f8f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-25T15:04:14Z",
+      "side": 1,
+      "message": "I don\u0027t currently have a plan for how to write those tests.  It might be better to hold off on this, and do it at the same time as the tests.",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 56
+      },
+      "revId": "f7890b67eeafea86d47ebe5b1944156dc8fcb25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
