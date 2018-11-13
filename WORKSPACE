@@ -3,27 +3,27 @@ workspace(name = "slack_integration")
 load("//:bazlets.bzl", "load_bazlets")
 
 load_bazlets(
-    commit = "6dad39cdb50b83afa7fe57783c10b272305f97ba",
+    commit = "d044cd60d37e302d9ac324f7a2c4e48b4011d4e6",
     #    local_path = "/Users/dpursehouse/git/bazlets",
 )
 
 #Snapshot Plugin API
-load(
-    "@com_googlesource_gerrit_bazlets//:gerrit_api_maven_local.bzl",
-    "gerrit_api_maven_local",
-)
-
-# Load snapshot Plugin API
-gerrit_api_maven_local()
-
-# Release Plugin API
 #load(
-#    "@com_googlesource_gerrit_bazlets//:gerrit_api.bzl",
-#    "gerrit_api",
+#    "@com_googlesource_gerrit_bazlets//:gerrit_api_maven_local.bzl",
+#    "gerrit_api_maven_local",
 #)
 
+# Load snapshot Plugin API
+#gerrit_api_maven_local()
+
+# Release Plugin API
+load(
+    "@com_googlesource_gerrit_bazlets//:gerrit_api.bzl",
+    "gerrit_api",
+)
+
 # Load release Plugin API
-#gerrit_api()
+gerrit_api()
 
 load("//:external_plugin_deps.bzl", "external_plugin_deps")
 
