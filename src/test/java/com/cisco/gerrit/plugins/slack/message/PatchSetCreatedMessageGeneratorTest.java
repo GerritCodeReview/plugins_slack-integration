@@ -79,7 +79,7 @@ public class PatchSetCreatedMessageGeneratorTest {
         .thenReturn(mockPluginConfig);
 
     when(mockConfigFactory.getFromGerritConfig(ProjectConfig.CONFIG_NAME))
-            .thenReturn(mockPluginConfig);
+        .thenReturn(mockPluginConfig);
 
     when(mockPluginConfig.getBoolean("enabled", false)).thenReturn(true);
     when(mockPluginConfig.getString("webhookurl", "")).thenReturn("https://webook/");
