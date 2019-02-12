@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5d11e0_0091c193",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1015822
+      },
+      "writtenOn": "2019-02-12T14:01:24Z",
+      "side": 1,
+      "message": "We probably want to have a stable-2.16 branch off master before moving master to 3.0 dev.",
+      "revId": "8f3e6fa7054aed6b8e27986201fb795b97e8a88d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
