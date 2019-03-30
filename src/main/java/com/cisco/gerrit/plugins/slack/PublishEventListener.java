@@ -22,6 +22,7 @@ import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.cisco.gerrit.plugins.slack.message.MessageGenerator;
 import com.cisco.gerrit.plugins.slack.message.MessageGeneratorFactory;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
@@ -41,9 +42,14 @@ import org.slf4j.LoggerFactory;
 public class PublishEventListener implements EventListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(PublishEventListener.class);
 
-  private static final String ALL_PROJECTS = "All-Projects";
+  private final PluginConfigFactory configFactory;
+  private final AllProjectsName allProjectsName;
 
-  @Inject private PluginConfigFactory configFactory;
+  @Inject
+  PublishEventListener(PluginConfigFactory configFactory, AllProjectsName allProjectsName) {
+    this.configFactory = configFactory;
+    this.allProjectsName = allProjectsName;
+  }
 
   @Override
   public void onEvent(Event event) {
@@ -89,9 +95,9 @@ public class PublishEventListener implements EventListener {
       } else {
         LOGGER.debug("Event " + event + " not currently supported");
 
-        config = new ProjectConfig(configFactory, ALL_PROJECTS);
+        config = new ProjectConfig(configFactory, allProjectsName.get());
 
-        messageGenerator = MessageGeneratorFactory.newInstance(event, config);
+        messageGenerator = MessageGeneratorFactory.newInstance(event);
       }
 
       if (messageGenerator.shouldPublish()) {

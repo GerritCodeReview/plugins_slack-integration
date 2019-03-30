@@ -4,10 +4,10 @@ load("//:bazlets.bzl", "load_bazlets")
 
 load_bazlets(
     commit = "5c1e201c6835e56a69a980c72206431e2a9d7d80",
-    #    local_path = "/Users/dpursehouse/git/bazlets",
+    #local_path = "/home/<user>/projects/bazlets"
 )
 
-#Snapshot Plugin API
+# Snapshot Plugin API
 #load(
 #    "@com_googlesource_gerrit_bazlets//:gerrit_api_maven_local.bzl",
 #    "gerrit_api_maven_local",

@@ -108,12 +108,10 @@ public class WebhookClient {
         connection.setDoInput(true);
         connection.setDoOutput(true);
 
-        DataOutputStream request;
-        request = new DataOutputStream(connection.getOutputStream());
-
-        request.write(message.getBytes(StandardCharsets.UTF_8));
-        request.flush();
-        request.close();
+        try (DataOutputStream request = new DataOutputStream(connection.getOutputStream())) {
+          request.write(message.getBytes(StandardCharsets.UTF_8));
+          request.flush();
+        }
       } catch (IOException e) {
         throw new RuntimeException("Error posting message to Slack: [" + e.getMessage() + "].", e);
       }
@@ -143,6 +141,7 @@ public class WebhookClient {
           Authenticator authenticator;
           authenticator =
               new Authenticator() {
+                @Override
                 public PasswordAuthentication getPasswordAuthentication() {
                   return (new PasswordAuthentication(
                       config.getProxyUsername(), config.getProxyPassword().toCharArray()));
