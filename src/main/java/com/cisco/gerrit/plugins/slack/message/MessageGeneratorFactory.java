@@ -126,12 +126,11 @@ public class MessageGeneratorFactory {
    * Creates a new MessageGenerator for unsupported events.
    *
    * @param event An Event instance
-   * @param config A ProjectConfig instance for the given event
    * @return A MessageGenerator instance capable of generating a message for an unsupported Event.
    */
-  public static MessageGenerator newInstance(Event event, ProjectConfig config) {
+  public static MessageGenerator newInstance(Event event) {
     UnsupportedMessageGenerator messageGenerator;
-    messageGenerator = new UnsupportedMessageGenerator(event, config);
+    messageGenerator = new UnsupportedMessageGenerator(event);
 
     return messageGenerator;
   }

@@ -77,14 +77,10 @@ public class WebhookClientIntegrationTest {
     WebhookClient client;
     client = new WebhookClient(getConfig());
 
-    InputStream testProperties;
-    testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties");
-
-    Properties properties;
-    properties = new Properties();
-    properties.load(testProperties);
-
-    testProperties.close();
+    Properties properties = new Properties();
+    try (InputStream testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties")) {
+      properties.load(testProperties);
+    }
 
     MessageTemplate template;
     template = new MessageTemplate();
@@ -109,14 +105,10 @@ public class WebhookClientIntegrationTest {
     WebhookClient client;
     client = new WebhookClient(getConfig());
 
-    InputStream testProperties;
-    testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties");
-
-    Properties properties;
-    properties = new Properties();
-    properties.load(testProperties);
-
-    testProperties.close();
+    Properties properties = new Properties();
+    try (InputStream testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties")) {
+      properties.load(testProperties);
+    }
 
     MessageTemplate template;
     template = new MessageTemplate();
