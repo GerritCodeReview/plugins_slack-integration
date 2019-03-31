@@ -20,20 +20,20 @@ package com.cisco.gerrit.plugins.slack;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PublishEventListenerTest {
-  private PatchSetCreatedEvent mockPatchSetCreatedEvent = mock(PatchSetCreatedEvent.class);
-  private ChangeMergedEvent mockChangeMergedEvent = mock(ChangeMergedEvent.class);
+  private PluginConfigFactory mockConfigFactory = mock(PluginConfigFactory.class);
+  private AllProjectsName mockAllProjectsName = mock(AllProjectsName.class);
 
   private PublishEventListener publishEventListener;
 
   @Before
   public void setup() throws Exception {
-    publishEventListener = new PublishEventListener();
+    publishEventListener = new PublishEventListener(mockConfigFactory, mockAllProjectsName);
   }
 
   @Test
