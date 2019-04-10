@@ -18,12 +18,14 @@
 package com.cisco.gerrit.plugins.slack.util;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 public class ResourceHelperTest {
   private static final String RESOURCE_NAME = "test.properties";
+  private static final String NON_EXISTING_RESOURCE_NAME = "invalid.properties";
 
   @Test
   public void testLoadNamedResourceAsStream() throws Exception {
@@ -31,11 +33,30 @@ public class ResourceHelperTest {
   }
 
   @Test
+  public void loadNullResourceAsStreamReturnsNull() throws Exception {
+    assertNull(ResourceHelper.loadNamedResourceAsStream(null));
+  }
+
+  @Test
+  public void loadNonExistingNamedResourceAsStreamReturnsNull() throws Exception {
+    assertNull(ResourceHelper.loadNamedResourceAsStream(NON_EXISTING_RESOURCE_NAME));
+  }
+
+  @Test
   public void testLoadNamedResourceAsString() throws Exception {
-    String resource;
-    resource = ResourceHelper.loadNamedResourceAsString(RESOURCE_NAME);
+    String resource = ResourceHelper.loadNamedResourceAsString(RESOURCE_NAME);
 
     assertNotNull(resource);
     assertTrue(resource.length() > 0);
+  }
+
+  @Test
+  public void loadNullNamedResourceAsStringReturnsNull() throws Exception {
+    assertNull(ResourceHelper.loadNamedResourceAsString(null));
+  }
+
+  @Test
+  public void loadNonExistingNamedResourceAsStringReturnsNull() throws Exception {
+    assertNull(ResourceHelper.loadNamedResourceAsString(NON_EXISTING_RESOURCE_NAME));
   }
 }
