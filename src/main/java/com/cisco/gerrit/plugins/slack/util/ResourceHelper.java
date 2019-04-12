@@ -17,8 +17,11 @@
 
 package com.cisco.gerrit.plugins.slack.util;
 
+import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /** Simple helper class to load resources via the current classloader. */
 public final class ResourceHelper {
@@ -33,17 +36,7 @@ public final class ResourceHelper {
    * @throws IOException In the event of an IO error
    */
   public static InputStream loadNamedResourceAsStream(String name) throws IOException {
-    InputStream result;
-    result = null;
-
-    if (name != null) {
-      ClassLoader classLoader;
-      classLoader = ResourceHelper.class.getClassLoader();
-
-      result = classLoader.getResourceAsStream(name);
-    }
-
-    return result;
+    return name != null ? ResourceHelper.class.getClassLoader().getResourceAsStream(name) : null;
   }
 
   /**
@@ -54,26 +47,9 @@ public final class ResourceHelper {
    * @throws IOException In the event of an IO error
    */
   public static String loadNamedResourceAsString(String name) throws IOException {
-    String result;
-    result = null;
-
-    InputStream inputStream;
-    inputStream = ResourceHelper.loadNamedResourceAsStream(name);
-
-    if (inputStream != null) {
-      StringBuffer buffer;
-      buffer = new StringBuffer();
-
-      byte[] b;
-      b = new byte[4096];
-
-      for (int n; (n = inputStream.read(b)) != -1; ) {
-        buffer.append(new String(b, 0, n));
-      }
-
-      result = buffer.toString();
-    }
-
-    return result;
+    InputStream inputStream = ResourceHelper.loadNamedResourceAsStream(name);
+    return inputStream != null
+        ? CharStreams.toString(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+        : null;
   }
 }
