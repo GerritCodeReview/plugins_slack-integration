@@ -11,20 +11,15 @@ Development
 -----------
 
 To build the plugin,
-[JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html),
-[Maven 3.0.x](http://maven.apache.org/download.cgi) and
-[Ant 1.9.x](https://ant.apache.org/bindownload.cgi) are required.
-Once installed use _mvn_ to build.
+[JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+and [Bazel](https://bazel.build/) are required.
+
+Once installed use _bazel_ to build.
 
     cd ./slack-integration
-    mvn install
+    bazel build slack-integration
 
-This command will compile/test and package the resulting artifact.
-
-    cd ./slack-integration
-    mvn package
-
-Once packaged, you can install the _./target/slack-integration.jar_ file into
+Once packaged, you can install the _./bazel-genfiles/slack-integration.jar_ file into
 Gerrit.
 
 
