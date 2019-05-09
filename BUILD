@@ -10,9 +10,11 @@ gerrit_plugin(
     name = "slack-integration",
     srcs = glob(["src/main/java/**/*.java"]),
     manifest_entries = [
+        "Gerrit-ApiType: plugin",
         "Gerrit-PluginName: slack-integration",
-        "Implementation-Title: slack-integration plugin",
+        "Implementation-Title: Slack Integration",
         "Implementation-URL: https://gerrit-review.googlesource.com/#/admin/projects/plugins/slack-integration",
+        "Implementation-Vendor: Cisco Systems, Inc.",
     ],
     resources = glob(["src/main/resources/**/*"]),
 )
