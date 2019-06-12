@@ -31,23 +31,14 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for the ChangeMergedMessageGeneratorTest class. The expected behavior is that the
  * ChangeMergedMessageGenerator should publish regardless of a configured ignore pattern.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Project.NameKey.class})
 public class ChangeMergedMessageGeneratorTest {
   private static final String PROJECT_NAME = "test-project";
-
-  private Project.NameKey mockNameKey = mock(Project.NameKey.class);
 
   private PluginConfigFactory mockConfigFactory = mock(PluginConfigFactory.class);
 
@@ -56,12 +47,6 @@ public class ChangeMergedMessageGeneratorTest {
   private ChangeMergedEvent mockEvent = mock(ChangeMergedEvent.class);
   private AccountAttribute mockAccount = mock(AccountAttribute.class);
   private ChangeAttribute mockChange = mock(ChangeAttribute.class);
-
-  @Before
-  public void setup() throws Exception {
-    PowerMockito.mockStatic(Project.NameKey.class);
-    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-  }
 
   private ProjectConfig getConfig(boolean publishOnChangeMerged) throws Exception {
     Project.NameKey projectNameKey;
