@@ -37,8 +37,5 @@ java_library(
     visibility = ["//visibility:public"],
     exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":slack-integration__plugin",
-        "@mockito//jar",
-        "@powermock_module_junit4//jar",
-        "@powermock_api_mockito//jar",
     ],
 )

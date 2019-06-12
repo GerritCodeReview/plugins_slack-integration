@@ -31,19 +31,12 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.events.WorkInProgressStateChangedEvent;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for the WorkInProgressStateChangedGenerator class. The expected behavior is that the
  * WorkInProgressStateChangedGenerator should publish when the state changes.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Project.NameKey.class})
 public class WorkInProgressStateChangedGeneratorTest {
   private static final String PROJECT_NAME = "test-project";
 
@@ -56,12 +49,6 @@ public class WorkInProgressStateChangedGeneratorTest {
   private WorkInProgressStateChangedEvent mockEvent = mock(WorkInProgressStateChangedEvent.class);
   private AccountAttribute mockAccount = mock(AccountAttribute.class);
   private ChangeAttribute mockChange = mock(ChangeAttribute.class);
-
-  @Before
-  public void setup() throws Exception {
-    PowerMockito.mockStatic(Project.NameKey.class);
-    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-  }
 
   private ProjectConfig getConfig(boolean publishOnWipReady) throws Exception {
     Project.NameKey projectNameKey;
