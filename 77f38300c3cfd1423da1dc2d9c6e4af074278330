@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "33ad548a_998f5c3b",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/client/WebhookClientIntegrationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-13T00:07:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d14ab1fb_63625aae",
+      "revId": "77f38300c3cfd1423da1dc2d9c6e4af074278330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bc97560_44239cc3",
         "filename": "src/test/java/com/cisco/gerrit/plugins/slack/client/WebhookClientIntegrationTest.java",
         "patchSetId": 1
@@ -81,6 +99,30 @@
       "revId": "77f38300c3cfd1423da1dc2d9c6e4af074278330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54ca541c_cdfdc8d7",
+        "filename": "src/test/java/com/cisco/gerrit/plugins/slack/client/WebhookClientIntegrationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-13T00:07:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5ab64158_0ce295a8",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 57
+      },
+      "revId": "77f38300c3cfd1423da1dc2d9c6e4af074278330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
