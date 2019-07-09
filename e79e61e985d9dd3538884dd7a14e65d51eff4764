@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c983b5_e70a71e5",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-09T19:07:38Z",
+      "side": -1,
+      "message": "Should not have been removed.",
+      "revId": "e79e61e985d9dd3538884dd7a14e65d51eff4764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
