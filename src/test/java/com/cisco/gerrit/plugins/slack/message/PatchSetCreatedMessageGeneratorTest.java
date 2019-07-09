@@ -33,16 +33,9 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /** Tests for the PatchSetCreatedMessageGeneratorTest class. */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Project.NameKey.class})
 public class PatchSetCreatedMessageGeneratorTest {
   private static final String PROJECT_NAME = "test-project";
 
@@ -56,12 +49,6 @@ public class PatchSetCreatedMessageGeneratorTest {
   private AccountAttribute mockAccount = mock(AccountAttribute.class);
   private ChangeAttribute mockChange = mock(ChangeAttribute.class);
   private PatchSetAttribute mockPatchSet = mock(PatchSetAttribute.class);
-
-  @Before
-  public void setup() throws Exception {
-    PowerMockito.mockStatic(Project.NameKey.class);
-    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-  }
 
   private ProjectConfig getConfig(
       String ignore,

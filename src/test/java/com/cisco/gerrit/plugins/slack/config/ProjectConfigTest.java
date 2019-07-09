@@ -29,18 +29,10 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /** Tests for the PluginConfig class. */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Project.NameKey.class})
 public class ProjectConfigTest {
   private static final String PROJECT_NAME = "test-project";
-
-  private Project.NameKey mockNameKey = mock(Project.NameKey.class);
 
   private PluginConfigFactory mockConfigFactory = mock(PluginConfigFactory.class);
 
@@ -50,9 +42,6 @@ public class ProjectConfigTest {
 
   @Before
   public void setup() throws Exception {
-    PowerMockito.mockStatic(Project.NameKey.class);
-    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-
     Project.NameKey projectNameKey;
     projectNameKey = Project.NameKey.parse(PROJECT_NAME);
 
