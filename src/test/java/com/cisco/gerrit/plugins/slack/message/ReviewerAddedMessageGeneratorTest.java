@@ -31,24 +31,15 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for the ReviewerAddedMessageGeneratorTest class. The expected behavior is that the
  * ReviewerAddedMessageGeneratorTest should publish if both the plugin and publish-on-reviewer-added
  * are enabled.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Project.NameKey.class})
 public class ReviewerAddedMessageGeneratorTest {
   private static final String PROJECT_NAME = "test-project";
-
-  private Project.NameKey mockNameKey = mock(Project.NameKey.class);
 
   private PluginConfigFactory mockConfigFactory = mock(PluginConfigFactory.class);
 
@@ -57,12 +48,6 @@ public class ReviewerAddedMessageGeneratorTest {
   private ReviewerAddedEvent mockEvent = mock(ReviewerAddedEvent.class);
   private AccountAttribute mockAccount = mock(AccountAttribute.class);
   private ChangeAttribute mockChange = mock(ChangeAttribute.class);
-
-  @Before
-  public void setup() throws Exception {
-    PowerMockito.mockStatic(Project.NameKey.class);
-    when(Project.NameKey.parse(PROJECT_NAME)).thenReturn(mockNameKey);
-  }
 
   private ProjectConfig getConfig(
       boolean publishOnReviewerAdded,
