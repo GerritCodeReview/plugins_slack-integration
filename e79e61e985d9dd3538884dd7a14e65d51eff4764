@@ -34,6 +34,24 @@
       "revId": "e79e61e985d9dd3538884dd7a14e65d51eff4764",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06893f44_b23f4393",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-11T08:24:58Z",
+      "side": -1,
+      "message": "Why not? What\u0027s the reason to keep powermock?",
+      "parentUuid": "4e9df747_8c4c3616",
+      "revId": "e79e61e985d9dd3538884dd7a14e65d51eff4764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
