@@ -19,7 +19,7 @@ Once installed use _bazel_ to build.
     cd ./slack-integration
     bazel build slack-integration
 
-Once packaged, you can install the _./bazel-genfiles/slack-integration.jar_ file into
+Once packaged, you can install the _./bazel-bin/slack-integration.jar_ file into
 Gerrit.
 
 
