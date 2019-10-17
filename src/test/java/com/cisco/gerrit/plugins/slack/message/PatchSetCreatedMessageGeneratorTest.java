@@ -25,8 +25,8 @@ import static org.mockito.Mockito.when;
 
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.common.base.Suppliers;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.data.AccountAttribute;

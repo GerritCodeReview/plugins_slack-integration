@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.cisco.gerrit.plugins.slack.message.MessageTemplate;
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import java.io.InputStream;

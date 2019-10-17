@@ -17,7 +17,7 @@
 
 package com.cisco.gerrit.plugins.slack.config;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import org.slf4j.Logger;
