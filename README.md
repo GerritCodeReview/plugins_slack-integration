@@ -107,6 +107,10 @@ The following configuration options are available
     ignore-private-patch-set - boolean (true/false)
         Whether any Slack notifications regarding a private change shouldn't
         be published (defaults to true).
+    ignore-comment-author - Pattern
+        A "dotall" enabled regular expression pattern that, when matches
+        against the comment author username, will prevent the publishing
+        the comment added messages (defaults to an empty string).
     publish-on-patch-set-created - boolean (true/false)
         Whether a Slack notification should be published when a new patch set
         is created.

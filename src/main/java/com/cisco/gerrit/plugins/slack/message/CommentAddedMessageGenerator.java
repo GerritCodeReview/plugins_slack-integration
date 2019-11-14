@@ -22,6 +22,8 @@ import static org.apache.commons.lang.StringUtils.substringBefore;
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.events.CommentAddedEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +74,23 @@ public class CommentAddedMessageGenerator implements MessageGenerator {
       LOGGER.warn("Error checking private and work-in-progress status", e);
     }
 
-    return true;
+    boolean result;
+    result = true;
+
+    try {
+      Pattern pattern;
+      pattern = Pattern.compile(config.getIgnoreCommentAuthor(), Pattern.DOTALL);
+
+      Matcher matcher;
+      matcher = pattern.matcher(event.author.get().username);
+
+      // If the ignore pattern matches, publishing should not happen
+      result = !matcher.matches();
+    } catch (Exception e) {
+      LOGGER.warn("The specified ignore pattern was invalid", e);
+    }
+
+    return result;
   }
 
   @Override
