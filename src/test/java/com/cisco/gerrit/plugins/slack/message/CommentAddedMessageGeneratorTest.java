@@ -70,6 +70,7 @@ public class CommentAddedMessageGeneratorTest {
     when(mockPluginConfig.getString("channel", "general")).thenReturn("testchannel");
     when(mockPluginConfig.getString("username", "gerrit")).thenReturn("testuser");
     when(mockPluginConfig.getString("ignore", "")).thenReturn("^WIP.*");
+    when(mockPluginConfig.getString("ignore-comment-author", "")).thenReturn("^jenkins.*");
     when(mockPluginConfig.getBoolean("publish-on-comment-added", true))
         .thenReturn(publishOnCommentAdded);
     when(mockPluginConfig.getBoolean("ignore-wip-patch-set", true))
@@ -220,6 +221,21 @@ public class CommentAddedMessageGeneratorTest {
     messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
 
     assertThat(messageGenerator.shouldPublish(), is(true));
+  }
+
+  @Test
+  public void doesNotPublishWhenIgnoreAuthorMatches() throws Exception {
+    // Setup mocks
+    ProjectConfig config = getConfig();
+    mockEvent.change = Suppliers.ofInstance(mockChange);
+    mockEvent.author = Suppliers.ofInstance(mockAccount);
+    mockAccount.username = "jenkins";
+
+    // Test
+    MessageGenerator messageGenerator;
+    messageGenerator = MessageGeneratorFactory.newInstance(mockEvent, config);
+
+    assertThat(messageGenerator.shouldPublish(), is(false));
   }
 
   @Test
