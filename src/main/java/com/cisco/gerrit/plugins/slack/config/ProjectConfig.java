@@ -43,6 +43,7 @@ public class ProjectConfig {
   private boolean ignoreUnchangedPatchSet;
   private boolean ignoreWorkInProgressPatchSet;
   private boolean ignorePrivatePatchSet;
+  private String  ignoreCommentAuthor;
   private boolean publishOnPatchSetCreated;
   private boolean publishOnChangeMerged;
   private boolean publishOnCommentAdded;
@@ -107,6 +108,11 @@ public class ProjectConfig {
           configFactory
               .getFromProjectConfigWithInheritance(projectNameKey, CONFIG_NAME)
               .getBoolean("ignore-private-patch-set", true);
+
+      ignoreCommentAuthor =
+          configFactory
+              .getFromProjectConfigWithInheritance(projectNameKey, CONFIG_NAME)
+              .getString("ignore-comment-author", "");
 
       publishOnPatchSetCreated =
           configFactory
@@ -182,6 +188,10 @@ public class ProjectConfig {
 
   public boolean getIgnorePrivatePatchSet() {
     return ignorePrivatePatchSet;
+  }
+
+  public String getIgnoreCommentAuthor() {
+    return ignoreCommentAuthor;
   }
 
   public boolean shouldPublishOnPatchSetCreated() {
