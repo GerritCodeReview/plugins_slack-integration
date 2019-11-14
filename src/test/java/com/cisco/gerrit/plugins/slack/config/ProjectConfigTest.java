@@ -58,6 +58,7 @@ public class ProjectConfigTest {
     when(mockPluginConfig.getString("channel", "general")).thenReturn("test-channel");
     when(mockPluginConfig.getString("username", "gerrit")).thenReturn("test-user");
     when(mockPluginConfig.getString("ignore", "")).thenReturn("^WIP.*");
+    when(mockPluginConfig.getString("ignore-comment-author", "")).thenReturn("^jenkins.*");
     when(mockPluginConfig.getBoolean("publish-on-patch-set-created", true)).thenReturn(true);
     when(mockPluginConfig.getBoolean("publish-on-change-merged", true)).thenReturn(true);
     when(mockPluginConfig.getBoolean("publish-on-comment-added", true)).thenReturn(true);
@@ -84,6 +85,11 @@ public class ProjectConfigTest {
   @Test
   public void testGetUsername() throws Exception {
     assertThat(config.getUsername(), is(equalTo("test-user")));
+  }
+
+  @Test
+  public void testGetIgnoreCommentAuthor() throws Exception {
+    assertThat(config.getIgnoreCommentAuthor(), is(equalTo("^jenkins.*")));
   }
 
   @Test
