@@ -43,7 +43,7 @@ public class ProjectConfig {
   private boolean ignoreUnchangedPatchSet;
   private boolean ignoreWorkInProgressPatchSet;
   private boolean ignorePrivatePatchSet;
-  private String  ignoreCommentAuthor;
+  private String ignoreCommentAuthor;
   private boolean publishOnPatchSetCreated;
   private boolean publishOnChangeMerged;
   private boolean publishOnCommentAdded;
