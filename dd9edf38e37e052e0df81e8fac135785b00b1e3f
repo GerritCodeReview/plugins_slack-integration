@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d172737e_477f1d2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-02T21:49:05Z",
+      "side": 1,
+      "message": "The fix for this failure comes from the companion topic change. I verified this myself locally, but another VR score would be welcome.",
+      "revId": "dd9edf38e37e052e0df81e8fac135785b00b1e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
