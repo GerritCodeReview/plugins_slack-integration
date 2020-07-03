@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59762b24_3307eb67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T05:34:07Z",
+      "side": 1,
+      "message": "CI failure is not related here. In tree plugin build is broken on master. The fix is here: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/274275\n",
+      "revId": "c53af44a61bb189e47de374a8616052e6790e86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
