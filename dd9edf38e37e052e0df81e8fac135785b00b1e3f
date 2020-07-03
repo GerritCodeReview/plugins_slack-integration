@@ -33,6 +33,24 @@
       "revId": "dd9edf38e37e052e0df81e8fac135785b00b1e3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e27bd6e2_a8e515e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T05:39:17Z",
+      "side": 1,
+      "message": "Never mind. Zuul CI is not building in standalone build mode. I was confused with the Zuul CI failure, but this is a known issue: In gerrit tree build mode is currently broken on master:\n\n   ** Please add the following dependencies: \n  //java/com/google/gerrit/server/data to //plugins/slack-integration:slack-integration__plugin",
+      "parentUuid": "6efe3bae_256d8938",
+      "revId": "dd9edf38e37e052e0df81e8fac135785b00b1e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
