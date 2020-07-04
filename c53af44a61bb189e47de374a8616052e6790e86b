@@ -1,13 +1,9 @@
 {
   "checks": {
     "zuul-check:plugins_slack-integration": {
-      "state": "FAILED",
-      "message": "Change failed",
-      "url": "https://ci.gerritcodereview.com/t/gerrit/buildset/24d1b5d28e13481ba6945309ced6a164",
-      "started": "2020-07-02T18:51:27Z",
-      "finished": "2020-07-02T19:00:39Z",
+      "state": "NOT_STARTED",
       "created": "2020-07-02T18:51:28Z",
-      "updated": "2020-07-02T19:00:39Z"
+      "updated": "2020-07-04T00:18:24Z"
     }
   }
 }
