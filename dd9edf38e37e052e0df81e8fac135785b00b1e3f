@@ -51,6 +51,23 @@
       "revId": "dd9edf38e37e052e0df81e8fac135785b00b1e3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9cdd463_3651c0d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-04T00:17:10Z",
+      "side": 1,
+      "message": "After rebuilding the latest snapshot api locally, plugin tests pass now with this change (standalone). And they also pass in-tree, for me. I\u0027m re-running the checks to confirm.",
+      "revId": "dd9edf38e37e052e0df81e8fac135785b00b1e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
