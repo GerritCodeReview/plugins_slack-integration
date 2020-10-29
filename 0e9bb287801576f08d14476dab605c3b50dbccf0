@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae22f14_95f8ff44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-29T16:05:20Z",
+      "side": 1,
+      "message": "No need to verify stand-alone, and CI will check in-tree; only CR then.",
+      "revId": "0e9bb287801576f08d14476dab605c3b50dbccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
