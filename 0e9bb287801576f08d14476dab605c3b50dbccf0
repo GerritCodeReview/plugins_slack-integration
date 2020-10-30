@@ -16,6 +16,23 @@
       "message": "No need to verify stand-alone, and CI will check in-tree; only CR then.",
       "revId": "0e9bb287801576f08d14476dab605c3b50dbccf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86454636_85cfabe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-30T13:12:32Z",
+      "side": 1,
+      "message": "Trivial change identical to other previously approved changes, needed to continue upstream merges timely. Core already has this upgrade in and up to master.",
+      "revId": "0e9bb287801576f08d14476dab605c3b50dbccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
