@@ -1,12 +1,13 @@
 {
   "checks": {
     "zuul-check:plugins_slack-integration": {
-      "state": "RUNNING",
-      "message": "Jobs have started running",
-      "url": "https://ci.gerritcodereview.com/t/gerrit/status/change/293870,2",
+      "state": "SUCCESSFUL",
+      "message": "Change passed all voting jobs",
+      "url": "https://ci.gerritcodereview.com/t/gerrit/buildset/80e20731912c48719f9e370f2eceb7c5",
       "started": "2021-01-18T11:49:07Z",
+      "finished": "2021-01-18T12:05:06Z",
       "created": "2021-01-18T11:49:07Z",
-      "updated": "2021-01-18T11:49:11Z"
+      "updated": "2021-01-18T12:05:07Z"
     }
   }
 }
