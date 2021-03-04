@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc884e9_d908b27f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-04T10:56:54Z",
+      "side": 1,
+      "message": "Verified locally by calling (in plugin dir):\nbazel clean --expunge \u0026\u0026 bazel test //...",
+      "revId": "cc39e547c76511f4d6db88075ed0aaaae89d0168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
