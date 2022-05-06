@@ -17,7 +17,7 @@
 
 package com.cisco.gerrit.plugins.slack.message;
 
-import static org.apache.commons.lang.StringUtils.substringBefore;
+import static org.apache.commons.lang3.StringUtils.substringBefore;
 
 import com.cisco.gerrit.plugins.slack.config.ProjectConfig;
 import com.google.gerrit.server.events.PrivateStateChangedEvent;
