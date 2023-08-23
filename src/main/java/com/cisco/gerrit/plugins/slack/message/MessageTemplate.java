@@ -19,6 +19,8 @@ package com.cisco.gerrit.plugins.slack.message;
 
 import com.cisco.gerrit.plugins.slack.util.ResourceHelper;
 import java.io.IOException;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,6 +127,7 @@ public class MessageTemplate {
     try {
       String template;
       template = ResourceHelper.loadNamedResourceAsString("message-template.json");
+      Objects.requireNonNull(template, "message-template.json not found!");
 
       result =
           String.format(
