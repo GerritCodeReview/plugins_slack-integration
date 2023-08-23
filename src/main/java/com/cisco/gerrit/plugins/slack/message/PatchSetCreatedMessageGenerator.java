@@ -59,12 +59,9 @@ public class PatchSetCreatedMessageGenerator implements MessageGenerator {
   private boolean unchangedChangeKind(ChangeKind kind) {
     switch (kind) {
       case TRIVIAL_REBASE:
-        return true;
       case MERGE_FIRST_PARENT_UPDATE:
-        return true;
-      case NO_CODE_CHANGE:
-        return true;
       case NO_CHANGE:
+      case NO_CODE_CHANGE:
         return true;
       case REWORK:
         return false;
