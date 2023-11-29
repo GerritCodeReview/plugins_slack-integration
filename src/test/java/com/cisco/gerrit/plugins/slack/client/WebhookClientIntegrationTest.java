@@ -18,6 +18,7 @@
 package com.cisco.gerrit.plugins.slack.client;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -60,13 +61,16 @@ public class WebhookClientIntegrationTest {
 
   @Test
   public void canPublishMessage() throws Exception {
-    WebhookClient client;
-    client = new WebhookClient(getConfig());
-
     Properties properties = new Properties();
     try (InputStream testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties")) {
       properties.load(testProperties);
     }
+
+    String webhookUrl = properties.getProperty("webhook-url");
+    assumeNotNull(webhookUrl);
+
+    WebhookClient client;
+    client = new WebhookClient(getConfig());
 
     MessageTemplate template;
     template = new MessageTemplate();
@@ -80,9 +84,6 @@ public class WebhookClientIntegrationTest {
     template.setNumber(1234);
     template.setTitle("Adds a test commit message");
 
-    String webhookUrl;
-    webhookUrl = properties.getProperty("webhook-url");
-
     assertTrue(client.publish(template.render(), webhookUrl));
   }
 
@@ -95,6 +96,9 @@ public class WebhookClientIntegrationTest {
     try (InputStream testProperties = ResourceHelper.loadNamedResourceAsStream("test.properties")) {
       properties.load(testProperties);
     }
+
+    String webhookUrl = properties.getProperty("webhook-url");
+    assumeNotNull(webhookUrl);
 
     MessageTemplate template;
     template = new MessageTemplate();
@@ -113,9 +117,6 @@ public class WebhookClientIntegrationTest {
             + "test message rendering. Slack should do the right thing "
             + "but this will be on multiple lines in IRC.\n\n\n\n\n"
             + "This is hidden.");
-
-    String webhookUrl;
-    webhookUrl = properties.getProperty("webhook-url");
 
     assertTrue(client.publish(template.render(), webhookUrl));
   }
