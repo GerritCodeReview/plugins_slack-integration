@@ -27,16 +27,7 @@ junit_tests(
     tags = [
         "slack-integration",
     ],
-    deps = [
-        ":slack-integration__plugin_test_deps",
-    ],
-)
-
-java_library(
-    name = "slack-integration__plugin_test_deps",
-    testonly = 1,
-    visibility = ["//visibility:public"],
-    exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
+    deps = PLUGIN_TEST_DEPS + [
         ":slack-integration__plugin",
     ],
 )
