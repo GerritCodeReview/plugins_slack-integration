@@ -16,6 +16,24 @@
       "message": "This was done for eclipse classpath generation to work as expected, right? There is documentation how to set up and running eclipse path generation for plugins with Extertal dependencies.",
       "revId": "247c1e88b8ab81c53424f67464eb5287a2ef72c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80ca8a90_5adb5d9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-18T04:38:35Z",
+      "side": 1,
+      "message": "Bitte this plugin doesn\u0027t have any external dependencies, so that this in fact not needed.",
+      "parentUuid": "dc7537ad_070e6ec4",
+      "revId": "247c1e88b8ab81c53424f67464eb5287a2ef72c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
